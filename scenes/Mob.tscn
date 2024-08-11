@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cipuvkeqpfjpj"]
+
+[ext_resource type="Script" path="res://scenes/Mob.gd" id="1_noivd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vf8li"]
+
+[node name="Mob" type="Area2D" groups=["mob"]]
+script = ExtResource("1_noivd")
+
+[node name="Collisions_mob" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_vf8li")

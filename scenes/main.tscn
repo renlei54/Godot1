@@ -1,40 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://b131p7uytty1v"]
+[gd_scene load_steps=4 format=3 uid="uid://b131p7uytty1v"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_1jxg5"]
-[ext_resource type="PackedScene" uid="uid://c64y0nhq0sjg7" path="res://scenes/player.tscn" id="2_ahowc"]
-[ext_resource type="PackedScene" uid="uid://bb5djsh3bkcqv" path="res://scenes/mobs.tscn" id="2_ghgor"]
-
-[sub_resource type="Curve2D" id="Curve2D_opvj3"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 480, 0, 0, 0, 0, 0, 480, 720, 0, 0, 0, 0, 0, 720, 0, 0, 0, 0, 0, 0)
-}
-point_count = 5
+[ext_resource type="PackedScene" uid="uid://c64y0nhq0sjg7" path="res://scenes/joueur.tscn" id="2_ahowc"]
+[ext_resource type="PackedScene" uid="uid://cipuvkeqpfjpj" path="res://scenes/Mob.tscn" id="3_nrysj"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_1jxg5")
-mob_scene = ExtResource("2_ghgor")
 
-[node name="Player" parent="." instance=ExtResource("2_ahowc")]
+[node name="Joueur" parent="." instance=ExtResource("2_ahowc")]
+position = Vector2(290, 192)
 
-[node name="Mob_path" type="Path2D" parent="."]
-curve = SubResource("Curve2D_opvj3")
-
-[node name="Mob_spawn_location" type="PathFollow2D" parent="Mob_path"]
-
-[node name="Score_timer" type="Timer" parent="."]
-
-[node name="Mobs_timer" type="Timer" parent="."]
-wait_time = 0.5
-
-[node name="Start_timer" type="Timer" parent="."]
-wait_time = 2.0
-one_shot = true
-
-[node name="Start_position" type="Marker2D" parent="."]
-position = Vector2(231, 361)
+[node name="Start_position_joueur" type="Marker2D" parent="."]
+position = Vector2(748, 183)
 scale = Vector2(5, 5)
 
-[connection signal="hit" from="Player" to="." method="game_over"]
-[connection signal="timeout" from="Score_timer" to="." method="_on_score_timer_timeout"]
-[connection signal="timeout" from="Mobs_timer" to="." method="_on_mobs_timer_timeout"]
-[connection signal="timeout" from="Start_timer" to="." method="_on_start_timer_timeout"]
+[node name="Mob" parent="." instance=ExtResource("3_nrysj")]
+position = Vector2(550, 433)
