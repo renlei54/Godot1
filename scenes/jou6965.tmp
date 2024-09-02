@@ -1,0 +1,226 @@
+[gd_scene load_steps=18 format=3 uid="uid://c64y0nhq0sjg7"]
+
+[ext_resource type="Script" path="res://scenes/joueur.gd" id="1_i1uyk"]
+[ext_resource type="Script" path="res://scenes/composant_degats.gd" id="2_eya8h"]
+[ext_resource type="Texture2D" uid="uid://csn1tddlmbc1b" path="res://art/Sword/A1.png" id="2_fcwxd"]
+[ext_resource type="Script" path="res://scenes/noms_collision_layers.gd" id="2_ubrwm"]
+[ext_resource type="Texture2D" uid="uid://ciywp21374gmw" path="res://art/Sword/A2.png" id="3_366qu"]
+[ext_resource type="Texture2D" uid="uid://bbii32e755s6n" path="res://art/Sword/A3.png" id="4_y56ly"]
+[ext_resource type="Texture2D" uid="uid://cbl0lqxbrhx2c" path="res://art/Sword/A4.png" id="5_p5tf4"]
+[ext_resource type="Texture2D" uid="uid://oj0bhtbm367d" path="res://art/Sword/A5.png" id="6_eo5sq"]
+[ext_resource type="Texture2D" uid="uid://du5o5rqgb8wfg" path="res://art/Sword/A0.png" id="8_wfsre"]
+
+[sub_resource type="Animation" id="Animation_hmpxl"]
+resource_name = "Attaque"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Attaque/Collisions_attaque:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 3.14159]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Attaque"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Attaque/Collisions_attaque:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_uswox"]
+resource_name = "Marche"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Marche"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_b78jf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Attaque/Collisions_attaque:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Attaque/Collisions_attaque:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite:animation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"Marche"]
+}
+
+[sub_resource type="Animation" id="Animation_n5ym6"]
+resource_name = "roulade"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8icbj"]
+_data = {
+"Attaque": SubResource("Animation_hmpxl"),
+"Marche": SubResource("Animation_uswox"),
+"RESET": SubResource("Animation_b78jf"),
+"Roulade": SubResource("Animation_n5ym6")
+}
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_memk3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_fcwxd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_366qu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_y56ly")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_p5tf4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_eo5sq")
+}],
+"loop": false,
+"name": &"Attaque",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_wfsre")
+}],
+"loop": true,
+"name": &"Marche",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p7lot"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_je6ld"]
+a = Vector2(0, -80)
+b = Vector2(0, 0)
+
+[node name="Joueur" type="Area2D"]
+collision_mask = 4
+script = ExtResource("1_i1uyk")
+
+[node name="Noms_collision_layers" type="Node" parent="."]
+script = ExtResource("2_ubrwm")
+
+[node name="Composant_degats" type="Node" parent="."]
+script = ExtResource("2_eya8h")
+
+[node name="Animations" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_8icbj")
+}
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(34, 9)
+sprite_frames = SubResource("SpriteFrames_memk3")
+animation = &"Marche"
+offset = Vector2(0, -8.5)
+
+[node name="Collisions_joueur" type="CollisionShape2D" parent="."]
+position = Vector2(-10, 0)
+shape = SubResource("CircleShape2D_p7lot")
+
+[node name="Attaque" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="Collisions_attaque" type="CollisionShape2D" parent="Attaque"]
+shape = SubResource("SegmentShape2D_je6ld")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="degats_pris" from="Composant_degats" to="." method="_on_composant_degats_degats_pris"]
+[connection signal="animation_finished" from="Animations" to="." method="_on_animations_animation_finished"]

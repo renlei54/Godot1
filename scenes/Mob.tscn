@@ -1,11 +1,32 @@
-[gd_scene load_steps=3 format=3 uid="uid://cipuvkeqpfjpj"]
+[gd_scene load_steps=5 format=3 uid="uid://cipuvkeqpfjpj"]
 
-[ext_resource type="Script" path="res://scenes/Mob.gd" id="1_noivd"]
+[ext_resource type="Script" path="res://scripts/scripts_scenes/Mob.gd" id="1_bae5k"]
+[ext_resource type="Script" path="res://scripts/noms_collision_layers.gd" id="2_3ewy8"]
+[ext_resource type="Script" path="res://scripts/composants/composant_degats.gd" id="3_vq65d"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vf8li"]
 
-[node name="Mob" type="Area2D" groups=["mob"]]
-script = ExtResource("1_noivd")
+[node name="Mob" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_bae5k")
+
+[node name="Noms_collision_layers" type="Node" parent="."]
+script = ExtResource("2_3ewy8")
+
+[node name="Composant_degats" type="Node" parent="."]
+script = ExtResource("3_vq65d")
 
 [node name="Collisions_mob" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_vf8li")
+
+[node name="Vie_mob" type="ProgressBar" parent="."]
+offset_left = -18.0
+offset_top = -23.0
+offset_right = 19.0
+offset_bottom = -15.0
+value = 100.0
+show_percentage = false
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="degats_pris" from="Composant_degats" to="." method="_on_composant_degats_degats_pris"]
