@@ -86,18 +86,7 @@ func _process(delta):
 		direction.y = 0
 	
 	# Orientation du joeur en fonction du vecteur direction
-	if direction.y > 0:
-		animations.play("Marche_bas")
-		orientation = "bas"
-	elif direction.x > 0:
-		animations.play("Marche_droite")
-		orientation = "droite"
-	elif direction.x < 0:
-		animations.play("Marche_gauche")
-		orientation = "gauche"
-	elif direction.y < 0:
-		animations.play("Marche_haut")
-		orientation = "haut"
+	
 
 	# Attaque 
 	if input_attaque:
@@ -115,6 +104,18 @@ func _process(delta):
 
 	# Rotation du joueur si le personnage est en mouvement
 	if not bloquage_rotation and direction.length() > 0:
+		if direction.y > 0:
+			animations.play("Marche_bas")
+			orientation = "bas"
+		elif direction.x > 0:
+			animations.play("Marche_droite")
+			orientation = "droite"
+		elif direction.x < 0:
+			animations.play("Marche_gauche")
+			orientation = "gauche"
+		elif direction.y < 0:
+			animations.play("Marche_haut")
+			orientation = "haut"
 		$Attaque.rotation_degrees = rad_to_deg(direction.angle())
 
 	# Si la rotation est bloquée (verrouillage en cours)
@@ -134,12 +135,20 @@ func start(pause):
 
 # Fonction de verrouillage
 func verrouillage():
-			# Vérifictaion de la présence d'un ennemi
-		if has_node("/root/Main/Mob"):
-			$Attaque.rotation_degrees = rad_to_deg(position.angle_to_point(mob.position))
-		# Dévérouillage s'il n'y a plus d'ennemis
+	# Vérifictaion de la présence d'un ennemi
+	if has_node("/root/Main/Mob"):
+		var mob_position = rad_to_deg(position.angle_to_point(mob.position))
+		print(mob_position)
+		$Attaque.rotation_degrees = mob_position
+		if mob_position > 0:
+			animations.play("Marche_bas")
+			orientation = "bas"
 		else:
-			bloquage_rotation = not bloquage_rotation
+			animations.play("Marche_haut")
+			orientation = "haut"
+	# Dévérouillage s'il n'y a plus d'ennemis
+	else:
+		bloquage_rotation = not bloquage_rotation
 
  # Fonction de fin d'animation
 func _on_animations_animation_finished(_anim_name):
