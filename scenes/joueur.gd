@@ -5,7 +5,7 @@ extends Area2D
 # Bloquages
 var bloquage_input = false
 var bloquage_rotation = false
-var bloquage_deplacement = false
+var bloquage_direction = false
 # Statistiques du joueur
 @export var vitesse = 400
 @export var vie = 100

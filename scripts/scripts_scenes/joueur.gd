@@ -5,13 +5,13 @@ extends Area2D
 # Bloquages
 var bloquage_input = false
 var bloquage_rotation = false
-var bloquage_deplacement = false
+var bloquage_direction = false
 # Statistiques du joueur
 @export var vitesse = 400
 @export var vie = 100
 @export var vie_max = 100
 @export var degats = 50
-@export var direction = Vector2.ZERO
+var direction = Vector2.ZERO
 var orientation
 # Actions du joueur
 var input_deplacement_droite = false
@@ -27,6 +27,7 @@ var input_roulade = false
 @onready var mob = $/root/Main/Mob
 @onready var animations = $Animations
 @onready var composant_degats = $Composant_degats 
+@onready var attaque = $Attaque
 # Signaux
 signal modification_vie(nouvelle_valeur_vie)
 
@@ -71,24 +72,41 @@ func _process(delta):
 
 	# Orientation du vecteur direction en fonction des Inputs
 	# Touches appuyées 
-	if input_deplacement_droite and not input_deplacement_gauche:
-		direction.x = 1
-	if input_deplacement_gauche and not input_deplacement_droite:
-		direction.x = -1
-	if input_deplacement_haut and not input_deplacement_bas:
-		direction.y = -1
-	if input_deplacement_bas and not input_deplacement_haut:
-		direction.y = 1
-	# Touches pas appuyées ou appuyées simultanément
-	if (not input_deplacement_gauche and not input_deplacement_droite) or (input_deplacement_gauche and input_deplacement_droite):
-		direction.x = 0
-	if (not input_deplacement_haut and not input_deplacement_bas) or (input_deplacement_haut and input_deplacement_bas):
-		direction.y = 0
-	
-	# Orientation du joeur en fonction du vecteur direction
-	
+	if not bloquage_direction:
+		if input_deplacement_droite and not input_deplacement_gauche:
+			direction.x = 1
+		if input_deplacement_gauche and not input_deplacement_droite:
+			direction.x = -1
+		if input_deplacement_haut and not input_deplacement_bas:
+			direction.y = -1
+		if input_deplacement_bas and not input_deplacement_haut:
+			direction.y = 1
+		# Touches pas appuyées ou appuyées simultanément
+		if (not input_deplacement_gauche and not input_deplacement_droite) or (input_deplacement_gauche and input_deplacement_droite):
+			direction.x = 0
+		if (not input_deplacement_haut and not input_deplacement_bas) or (input_deplacement_haut and input_deplacement_bas):
+			direction.y = 0
 
-	# Attaque 
+	# Rotation du joueur si le personnage est en mouvement
+	if not bloquage_rotation and not bloquage_direction and direction.length() > 0:
+		if direction.y > 0:
+			animations.play("Marche_bas")
+			orientation = "bas"
+			attaque.rotation_degrees = 90
+		elif direction.x > 0:
+			animations.play("Marche_droite")
+			orientation = "droite"
+			attaque.rotation_degrees = 0
+		elif direction.x < 0:
+			animations.play("Marche_gauche")
+			orientation = "gauche"
+			attaque.rotation_degrees = 180
+		elif direction.y < 0:
+			animations.play("Marche_haut")
+			orientation = "haut"
+			attaque.rotation_degrees = -90
+		
+		# Attaque 
 	if input_attaque:
 		animations.play("Attaque")
 		bloquage_input = true
@@ -101,22 +119,7 @@ func _process(delta):
 	if input_roulade:
 		animations.play("Roulade")
 		bloquage_input = true
-
-	# Rotation du joueur si le personnage est en mouvement
-	if not bloquage_rotation and direction.length() > 0:
-		if direction.y > 0:
-			animations.play("Marche_bas")
-			orientation = "bas"
-		elif direction.x > 0:
-			animations.play("Marche_droite")
-			orientation = "droite"
-		elif direction.x < 0:
-			animations.play("Marche_gauche")
-			orientation = "gauche"
-		elif direction.y < 0:
-			animations.play("Marche_haut")
-			orientation = "haut"
-		$Attaque.rotation_degrees = rad_to_deg(direction.angle())
+		bloquage_direction = true
 
 	# Si la rotation est bloquée (verrouillage en cours)
 	if bloquage_rotation:
@@ -138,14 +141,23 @@ func verrouillage():
 	# Vérifictaion de la présence d'un ennemi
 	if has_node("/root/Main/Mob"):
 		var mob_position = rad_to_deg(position.angle_to_point(mob.position))
-		print(mob_position)
-		$Attaque.rotation_degrees = mob_position
-		if mob_position > 0:
-			animations.play("Marche_bas")
-			orientation = "bas"
-		else:
-			animations.play("Marche_haut")
-			orientation = "haut"
+		if direction.length() > 0 and not bloquage_input:
+			if mob_position > 45 and mob_position < 135:
+				animations.play("Marche_bas")
+				orientation = "bas"
+				attaque.rotation_degrees = 90
+			elif mob_position < 45 and mob_position > -45:
+				animations.play("Marche_droite")
+				orientation = "droite"
+				attaque.rotation_degrees = 0
+			elif mob_position < -45 and mob_position > -135:
+				animations.play("Marche_haut")
+				orientation = "haut"
+				attaque.rotation_degrees = -90
+			else:
+				animations.play("Marche_gauche")
+				orientation = "gauche"
+				attaque.rotation_degrees = 180
 	# Dévérouillage s'il n'y a plus d'ennemis
 	else:
 		bloquage_rotation = not bloquage_rotation
@@ -155,6 +167,8 @@ func _on_animations_animation_finished(_anim_name):
 		# Si les inputs sont bloqués
 	if bloquage_input:
 		bloquage_input = false
+	if bloquage_direction:
+		bloquage_direction = false
 
 # En cas de collision
 func _on_area_entered(area):
