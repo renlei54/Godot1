@@ -129,6 +129,7 @@ func _process(delta):
 		animations.play("Roulade")
 		bloquage_input = true
 		bloquage_direction = true
+		bloquage_animations = true
 
 	# Si la rotation est bloquée (verrouillage en cours)
 	if bloquage_rotation:
@@ -174,6 +175,8 @@ func _on_animations_animation_finished(_anim_name):
 		bloquage_input = false
 	if bloquage_direction:
 		bloquage_direction = false
+	if bloquage_animations:
+		bloquage_animations = false
 
 # En cas de collision
 func _on_area_entered(area):
