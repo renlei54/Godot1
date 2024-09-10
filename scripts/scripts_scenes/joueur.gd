@@ -6,6 +6,7 @@ extends Area2D
 var bloquage_input = false
 var bloquage_rotation = false
 var bloquage_direction = false
+var bloquage_animations = false
 # Statistiques du joueur
 @export var vitesse = 400
 @export var vie = 100
@@ -88,24 +89,32 @@ func _process(delta):
 			direction.y = 0
 
 	# Rotation du joueur si le personnage est en mouvement
-	if not bloquage_rotation and not bloquage_direction and direction.length() > 0:
+	if not bloquage_rotation and direction.length() > 0:
 		if direction.y > 0:
-			animations.play("Marche_bas")
 			orientation = "bas"
 			attaque.rotation_degrees = 90
 		elif direction.x > 0:
-			animations.play("Marche_droite")
 			orientation = "droite"
 			attaque.rotation_degrees = 0
 		elif direction.x < 0:
-			animations.play("Marche_gauche")
 			orientation = "gauche"
 			attaque.rotation_degrees = 180
 		elif direction.y < 0:
-			animations.play("Marche_haut")
 			orientation = "haut"
 			attaque.rotation_degrees = -90
-		
+	
+	# Lecture de l'animation de marche	
+	if not bloquage_animations:
+		if direction.length() > 0:
+			if orientation == "haut":
+				animations.play("Marche_haut")
+			if orientation == "bas":
+				animations.play("Marche_bas")
+			if orientation == "gauche":
+				animations.play("Marche_gauche")
+			if orientation == "droite":
+				animations.play("Marche_droite")
+
 		# Attaque 
 	if input_attaque:
 		animations.play("Attaque")
@@ -143,19 +152,15 @@ func verrouillage():
 		var mob_position = rad_to_deg(position.angle_to_point(mob.position))
 		if direction.length() > 0 and not bloquage_input:
 			if mob_position > 45 and mob_position < 135:
-				animations.play("Marche_bas")
 				orientation = "bas"
 				attaque.rotation_degrees = 90
 			elif mob_position < 45 and mob_position > -45:
-				animations.play("Marche_droite")
 				orientation = "droite"
 				attaque.rotation_degrees = 0
 			elif mob_position < -45 and mob_position > -135:
-				animations.play("Marche_haut")
 				orientation = "haut"
 				attaque.rotation_degrees = -90
 			else:
-				animations.play("Marche_gauche")
 				orientation = "gauche"
 				attaque.rotation_degrees = 180
 	# Dévérouillage s'il n'y a plus d'ennemis
