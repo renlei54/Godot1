@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://c64y0nhq0sjg7"]
+[gd_scene load_steps=27 format=3 uid="uid://c64y0nhq0sjg7"]
 
 [ext_resource type="Script" path="res://scripts/scripts_scenes/joueur.gd" id="1_3cdjp"]
 [ext_resource type="Texture2D" uid="uid://csn1tddlmbc1b" path="res://art/Sword/A1.png" id="2_fcwxd"]
@@ -251,6 +251,10 @@ tracks/1/keys = {
 "values": [Vector2(-12, 0), Vector2(-9, 0), Vector2(-8, 0), Vector2(-9, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_n5o0w"]
+resource_name = "Potion"
+length = 0.5
+
 [sub_resource type="Animation" id="Animation_b78jf"]
 length = 0.001
 tracks/0/type = "value"
@@ -401,6 +405,7 @@ _data = {
 "Marche_droite": SubResource("Animation_3hnto"),
 "Marche_gauche": SubResource("Animation_j7t1c"),
 "Marche_haut": SubResource("Animation_cpnux"),
+"Potion": SubResource("Animation_n5o0w"),
 "RESET": SubResource("Animation_b78jf"),
 "Roulade": SubResource("Animation_n5ym6")
 }
@@ -471,6 +476,9 @@ position = Vector2(-12, -1)
 shape = SubResource("CircleShape2D_p7lot")
 disabled = true
 
+[node name="Timer_regenaration" type="Timer" parent="."]
+wait_time = 0.75
+
 [node name="Attaque" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 0
@@ -489,3 +497,4 @@ shape = SubResource("SegmentShape2D_je6ld")
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="degats_pris" from="Composant_degats" to="." method="_on_composant_degats_degats_pris"]
 [connection signal="animation_finished" from="Animations" to="." method="_on_animations_animation_finished"]
+[connection signal="timeout" from="Timer_regenaration" to="." method="_on_timer_regenaration_timeout"]

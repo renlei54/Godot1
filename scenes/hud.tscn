@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://dwlyjal1wsoes"]
+[gd_scene load_steps=3 format=3 uid="uid://dwlyjal1wsoes"]
 
 [ext_resource type="Script" path="res://scripts/scripts_scenes/hud.gd" id="1_o1dd4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_l0inb"]
+font_size = 50
 
 [node name="HUD" type="CanvasGroup"]
 script = ExtResource("1_o1dd4")
@@ -10,3 +13,18 @@ offset_right = 373.0
 offset_bottom = 39.0
 value = 50.0
 show_percentage = false
+
+[node name="Endurance_joueur" type="ProgressBar" parent="."]
+offset_left = 1.0
+offset_top = 43.0
+offset_right = 187.0
+offset_bottom = 77.0
+show_percentage = false
+
+[node name="Compteur_potions_vie" type="Label" parent="."]
+offset_left = 1.0
+offset_top = 651.0
+offset_right = 30.0
+offset_bottom = 720.0
+text = "1"
+label_settings = SubResource("LabelSettings_l0inb")
