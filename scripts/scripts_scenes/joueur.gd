@@ -1,4 +1,4 @@
-extends Area2D
+extends CharacterBody2D
 
 # Variable globales 
 @onready var noms_collision_layers = $Noms_collision_layers.noms_collision_layers
@@ -46,12 +46,12 @@ func _ready():
 	
 	# Désactivation des collisions de l'attaque
 	$Attaque/Collisions_attaque.disabled = true
-	$Collisions_joueur.disabled = false
+	$Detection/Collisions_detection.disabled = false
 	$Spritesheet_marche.visible = true
 	
 	hide()
 
-func _process(delta):
+func _physics_process(delta):
 
 	# Lecture des inputs
 	input_deplacement_droite = false
@@ -178,6 +178,9 @@ func _process(delta):
 	# Vérification de sortie de l'écran
 	position = position.clamp(Vector2.ZERO, screen_size)
 
+	# Gestion des collisions
+	move_and_slide()
+
 # Fonction d'affichage du personnage
 func start(pause):
 	position = pause
@@ -228,13 +231,6 @@ func _on_animations_animation_finished(_anim_name):
 		nombre_potions_vie -= 1
 		emit_signal("modification_nombre_potions_vie", nombre_potions_vie)
 
-# En cas de collision
-func _on_area_entered(area):
-	# Si c'est avec un ennemi
-	if area.collision_layer == noms_collision_layers["Mob"]:
-		# Prise de dégats
-		composant_degats.prise_de_degats(self, vie, mob.degats)
-
 # En cas de dégats 
 func _on_composant_degats_degats_pris(vie_actuelle):
 	# Actualisation de la vie
@@ -248,3 +244,10 @@ func _on_timer_regenaration_timeout():
 		regeneration_en_cours = true
 	else:
 		regeneration_en_cours = false
+
+# En cas de détection
+func _on_detection_body_entered(body):	
+	# Si c'est avec un ennemi
+	if body.collision_layer == noms_collision_layers["Mob"]:
+		# Prise de dégats
+		composant_degats.prise_de_degats(self, vie, mob.degats)

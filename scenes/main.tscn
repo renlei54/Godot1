@@ -1,27 +1,24 @@
 [gd_scene load_steps=6 format=3 uid="uid://b131p7uytty1v"]
 
 [ext_resource type="Script" path="res://scripts/scripts_scenes/main.gd" id="1_47jvr"]
-[ext_resource type="PackedScene" uid="uid://c64y0nhq0sjg7" path="res://scenes/joueur.tscn" id="2_ahowc"]
 [ext_resource type="PackedScene" uid="uid://cipuvkeqpfjpj" path="res://scenes/Mob.tscn" id="3_nrysj"]
 [ext_resource type="PackedScene" uid="uid://dwlyjal1wsoes" path="res://scenes/hud.tscn" id="4_gmfyf"]
 [ext_resource type="PackedScene" uid="uid://bb3a61tlwpobj" path="res://scenes/mur.tscn" id="5_tqayu"]
+[ext_resource type="PackedScene" uid="uid://bmb7pcg2usegk" path="res://scenes/joueur.tscn" id="6_4xv2f"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_47jvr")
 
-[node name="Joueur" parent="." instance=ExtResource("2_ahowc")]
-position = Vector2(290, 192)
-collision_mask = 12
-
 [node name="Start_position_joueur" type="Marker2D" parent="."]
-position = Vector2(748, 183)
+position = Vector2(731, 215)
 scale = Vector2(5, 5)
 
 [node name="Mob" parent="." instance=ExtResource("3_nrysj")]
-position = Vector2(550, 433)
+position = Vector2(622, 472)
 
 [node name="HUD" parent="." instance=ExtResource("4_gmfyf")]
 
 [node name="Mur" parent="." instance=ExtResource("5_tqayu")]
-position = Vector2(328, 345)
-collision_layer = 8
+position = Vector2(618, 354)
+
+[node name="Joueur" parent="." instance=ExtResource("6_4xv2f")]

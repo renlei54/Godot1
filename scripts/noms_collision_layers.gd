@@ -4,5 +4,6 @@ extends Node
 var noms_collision_layers = {
 	"Joueur": 1,
 	"Arme": 2,
-	"Mob": 4
+	"Mob": 4,
+	"Mur": 8
 }
