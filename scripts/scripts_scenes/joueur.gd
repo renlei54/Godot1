@@ -3,6 +3,8 @@ extends CharacterBody2D
 # Variable globales 
 @onready var noms_collision_layers = $Noms_collision_layers.noms_collision_layers
 @onready var regeneration_en_cours = false
+var direction = Vector2.ZERO
+var orientation
 # Bloquages
 var bloquage_input = false
 var bloquage_rotation = false
@@ -18,8 +20,6 @@ var bloquage_regeneration = false
 @export var endurance = endurance_max
 @export var nombre_potions_vie = 3
 @export var efficacite_potions_vie = 40
-var direction = Vector2.ZERO
-var orientation
 # Actions du joueur
 var input_deplacement_droite = false
 var input_deplacement_gauche = false

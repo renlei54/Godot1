@@ -1,19 +1,29 @@
 extends CharacterBody2D
 
-@export var vie_max = 100
-
 # Variables globales
 @onready var noms_collision_layers = $Noms_collision_layers.noms_collision_layers
+var direction
 # Statistiques mob
 @onready var vie = $Vie_mob
 @export var degats = 20
+@export var vie_max = 100
+@export var vitesse = 200
 # Noeuds
 @onready var joueur = $/root/Main/Joueur
 @onready var composant_degats = $Composant_degats
-
+@onready var navigation_agent = $Navigation_agent
 func _ready():
 	# Initialisation de la vie du mob
 	vie.value = vie_max
+
+func _physics_process(delta):
+	direction = to_local(navigation_agent.get_next_path_position()).normalized()
+	position += direction.normalized() * delta * vitesse
+	move_and_slide()
+
+func _on_navigation_timer_timeout():
+	if has_node("/root/Main/Joueur"):
+		navigation_agent.target_position = joueur.global_position
 
 # En cas de dégats
 func _on_composant_degats_degats_pris(vie_actuelle):
@@ -26,4 +36,3 @@ func _on_detection_area_entered(area):
 	if area.collision_layer == noms_collision_layers["Arme"]:
 		# Prise de dégats
 		composant_degats.prise_de_degats(self, vie.value, joueur.degats)
-

@@ -1,10 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://b131p7uytty1v"]
+[gd_scene load_steps=7 format=3 uid="uid://b131p7uytty1v"]
 
 [ext_resource type="Script" path="res://scripts/scripts_scenes/main.gd" id="1_47jvr"]
 [ext_resource type="PackedScene" uid="uid://cipuvkeqpfjpj" path="res://scenes/Mob.tscn" id="3_nrysj"]
 [ext_resource type="PackedScene" uid="uid://dwlyjal1wsoes" path="res://scenes/hud.tscn" id="4_gmfyf"]
 [ext_resource type="PackedScene" uid="uid://bb3a61tlwpobj" path="res://scenes/mur.tscn" id="5_tqayu"]
 [ext_resource type="PackedScene" uid="uid://bmb7pcg2usegk" path="res://scenes/joueur.tscn" id="6_4xv2f"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_nee6v"]
+vertices = PackedVector2Array(1095, -105, 1101, 739, 803, 374, 803, 334, -48, 753, 598, 374, -44, -122, 638, 269, 598, 269, 638, 334)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(2, 1, 4, 5), PackedInt32Array(6, 0, 3, 7), PackedInt32Array(5, 4, 6, 8), PackedInt32Array(3, 9, 7), PackedInt32Array(6, 7, 8)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(1112, 749, -59, 764, -54, -133, 1105, -115)])
+source_geometry_mode = 1
+source_geometry_group_name = &"blocs"
 
 [node name="Main" type="Node"]
 script = ExtResource("1_47jvr")
@@ -18,7 +25,10 @@ position = Vector2(622, 472)
 
 [node name="HUD" parent="." instance=ExtResource("4_gmfyf")]
 
-[node name="Mur" parent="." instance=ExtResource("5_tqayu")]
+[node name="Mur" parent="." groups=["blocs"] instance=ExtResource("5_tqayu")]
 position = Vector2(618, 354)
 
 [node name="Joueur" parent="." instance=ExtResource("6_4xv2f")]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_nee6v")

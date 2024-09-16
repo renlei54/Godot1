@@ -23,6 +23,13 @@ script = ExtResource("2_3ewy8")
 [node name="Composant_degats" type="Node" parent="."]
 script = ExtResource("3_vq65d")
 
+[node name="Navigation_agent" type="NavigationAgent2D" parent="."]
+debug_enabled = true
+
+[node name="Navigation_timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
 [node name="Vie_mob" type="ProgressBar" parent="."]
 offset_left = -18.0
 offset_top = -23.0
@@ -39,4 +46,5 @@ collision_mask = 2
 shape = SubResource("CircleShape2D_6kkq1")
 
 [connection signal="degats_pris" from="Composant_degats" to="." method="_on_composant_degats_degats_pris"]
+[connection signal="timeout" from="Navigation_timer" to="." method="_on_navigation_timer_timeout"]
 [connection signal="area_entered" from="Detection" to="." method="_on_detection_area_entered"]
