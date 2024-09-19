@@ -3,7 +3,7 @@ extends CharacterBody2D
 # Variable globales 
 @onready var noms_collision_layers = $Noms_collision_layers.noms_collision_layers
 @onready var regeneration_en_cours = false
-var direction = Vector2.ZERO
+@export var direction = Vector2.ZERO
 var orientation
 # Bloquages
 var bloquage_input = false
@@ -29,8 +29,6 @@ var input_attaque = false
 var input_verrouillage = false
 var input_roulade = false
 var input_potion_vie = false
-# Taille de l'écran
-@onready var screen_size = get_viewport_rect().size
 # Noeuds
 @onready var mob = $/root/Main/Mob
 @onready var animations = $Animations
@@ -176,7 +174,7 @@ func _physics_process(delta):
 	position += direction.normalized() * delta * vitesse
 	
 	# Vérification de sortie de l'écran
-	position = position.clamp(Vector2.ZERO, screen_size)
+	# position = position.clamp(Vector2.ZERO, screen_size)
 
 	# Gestion des collisions
 	move_and_slide()

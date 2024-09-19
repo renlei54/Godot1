@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjx7ha1sno15k"]
+
+[ext_resource type="Script" path="res://scripts/scripts_scenes/champ_de_vision.gd" id="1_4sxyw"]
+
+[node name="Champ_de_vision" type="Node2D"]
+script = ExtResource("1_4sxyw")

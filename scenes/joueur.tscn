@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bmb7pcg2usegk"]
+[gd_scene load_steps=30 format=3 uid="uid://bmb7pcg2usegk"]
 
 [ext_resource type="Script" path="res://scripts/scripts_scenes/joueur.gd" id="1_tqrhm"]
 [ext_resource type="Script" path="res://scripts/noms_collision_layers.gd" id="2_2xfrt"]
@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://cbl0lqxbrhx2c" path="res://art/Sword/A4.png" id="8_t6ng0"]
 [ext_resource type="Texture2D" uid="uid://oj0bhtbm367d" path="res://art/Sword/A5.png" id="9_sgjgk"]
 [ext_resource type="Texture2D" uid="uid://du5o5rqgb8wfg" path="res://art/Sword/A0.png" id="10_yjv8y"]
+[ext_resource type="PackedScene" uid="uid://dwlyjal1wsoes" path="res://scenes/hud.tscn" id="11_nw86i"]
+[ext_resource type="PackedScene" uid="uid://cjx7ha1sno15k" path="res://scenes/champ_de_vision.tscn" id="12_cxqv7"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p7lot"]
 radius = 12.0
@@ -444,6 +446,13 @@ collision_mask = 12
 position = Vector2(-12, 0)
 shape = SubResource("CircleShape2D_iilom")
 disabled = true
+
+[node name="HUD" parent="." instance=ExtResource("11_nw86i")]
+
+[node name="Camera" type="Camera2D" parent="."]
+
+[node name="Champ_de_vision" parent="." instance=ExtResource("12_cxqv7")]
+position = Vector2(-12, 0)
 
 [connection signal="degats_pris" from="Composant_degats" to="." method="_on_composant_degats_degats_pris"]
 [connection signal="animation_finished" from="Animations" to="." method="_on_animations_animation_finished"]

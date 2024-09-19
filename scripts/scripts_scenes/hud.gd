@@ -1,7 +1,7 @@
 extends CanvasGroup
 
 # variables globales
-@onready var joueur = $/root/Main/Joueur
+@onready var joueur = get_parent()
 @onready var barre_vie_joueur = $Vie_joueur
 @onready var barre_endurance_joueur = $Endurance_joueur
 @onready var compteur_potions_vie = $Compteur_potions_vie
