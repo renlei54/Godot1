@@ -28,11 +28,14 @@ func _process(delta):
 	var mob_visible = false
 
 	for rayon in rayons:
-		var target_position = rayon.target_position.normalized() * 300
+		var target_position = rayon.target_position.normalized() * 1000
+		rayon.target_position = target_position
+		rayon.force_raycast_update()
 		while rayon.is_colliding():
 			var obj = rayon.get_collider()
 			if obj.name == "Mur":
 				target_position = rayon.target_position.normalized() * rayon.global_position.distance_to(rayon.get_collision_point())
+				break
 			objects_collide.append(obj)
 			rayon.add_exception(obj)
 			rayon.force_raycast_update()
@@ -46,6 +49,7 @@ func _process(delta):
 			if obj.name == "Mob":
 				mob_visible = true
 				
+		objects_collide = []
 		rayon.target_position = target_position
 	# Mettre à jour la visibilité du mob après avoir vérifié tous les rayons
 	mob.visible = mob_visible
