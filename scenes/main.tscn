@@ -19,6 +19,9 @@ script = ExtResource("1_47jvr")
 position = Vector2(731, 215)
 scale = Vector2(5, 5)
 
+[node name="Position_depart_mob" type="Marker2D" parent="."]
+position = Vector2(697, 411)
+
 [node name="Mob" parent="." instance=ExtResource("3_nrysj")]
 position = Vector2(622, 472)
 

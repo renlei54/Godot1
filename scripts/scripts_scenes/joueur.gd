@@ -35,6 +35,7 @@ var input_potion_vie = false
 @onready var composant_degats = $Composant_degats 
 @onready var attaque = $Attaque
 @onready var timer_regeneration = $Timer_regenaration
+@onready var champ_de_vision = $Champ_de_vision
 # Signaux
 signal modification_vie(nouvelle_valeur_vie)
 signal modification_endurance(nouvelle_valeur_endurance)
@@ -172,9 +173,11 @@ func _physics_process(delta):
 
 	# Modification de la position du joueur 
 	position += direction.normalized() * delta * vitesse
-	
-	# Vérification de sortie de l'écran
-	# position = position.clamp(Vector2.ZERO, screen_size)
+
+	# Orientation du champ de vision
+	if not bloquage_rotation:
+		if direction.length() > 0:
+			champ_de_vision.orientation(direction)
 
 	# Gestion des collisions
 	move_and_slide()
@@ -189,7 +192,8 @@ func verrouillage():
 	# Vérifictaion de la présence d'un ennemi
 	if has_node("/root/Main/Mob"):
 		var mob_position = rad_to_deg(position.angle_to_point(mob.position))
-		if direction.length() > 0 and not bloquage_input:
+		champ_de_vision.orientation(mob.position - position)
+		if not bloquage_input:
 			if mob_position > 45 and mob_position < 135:
 				orientation = "bas"
 				attaque.rotation_degrees = 90

@@ -7,7 +7,7 @@ var direction
 @onready var vie = $Vie_mob
 @export var degats = 20
 @export var vie_max = 100
-@export var vitesse = 200
+@export var vitesse = 100
 # Noeuds
 @onready var joueur = $/root/Main/Joueur
 @onready var composant_degats = $Composant_degats
@@ -17,8 +17,8 @@ func _ready():
 	vie.value = vie_max
 
 func _physics_process(delta):
-	direction = to_local(navigation_agent.get_next_path_position()).normalized()
-	position += direction.normalized() * delta * vitesse
+	# direction = to_local(navigation_agent.get_next_path_position()).normalized()
+	# position += direction.normalized() * delta * vitesse
 	move_and_slide()
 
 func _on_navigation_timer_timeout():
