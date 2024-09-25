@@ -22,13 +22,8 @@ scale = Vector2(5, 5)
 [node name="Position_depart_mob" type="Marker2D" parent="."]
 position = Vector2(697, 411)
 
-[node name="Position_depart_mob2" type="Marker2D" parent="."]
-position = Vector2(600, 411)
-
 [node name="Mob" parent="." instance=ExtResource("3_nrysj")]
 position = Vector2(622, 472)
-
-[node name="Mob2" parent="." instance=ExtResource("3_nrysj")]
 
 [node name="Mur" parent="." groups=["blocs"] instance=ExtResource("5_tqayu")]
 position = Vector2(618, 354)

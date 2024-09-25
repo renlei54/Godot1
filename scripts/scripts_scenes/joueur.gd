@@ -5,6 +5,7 @@ extends CharacterBody2D
 @onready var regeneration_en_cours = false
 @export var direction = Vector2.ZERO
 var orientation
+var noeuds_visibles = []
 # Bloquages
 var bloquage_input = false
 var bloquage_rotation = false
@@ -31,6 +32,7 @@ var input_roulade = false
 var input_potion_vie = false
 # Noeuds
 @onready var mob = $/root/Main/Mob
+@onready var mob_position
 @onready var animations = $Animations
 @onready var composant_degats = $Composant_degats 
 @onready var attaque = $Attaque
@@ -42,6 +44,9 @@ signal modification_endurance(nouvelle_valeur_endurance)
 signal modification_nombre_potions_vie(nouveau_nombre_potions_vie)
 
 func _ready():
+	
+	# Connection au signal du champ de vision
+	champ_de_vision.connect("actualisation_noeuds_visibles", Callable(self, "_lorsque_actualisation_noeuds_visibles"))
 	
 	# Désactivation des collisions de l'attaque
 	$Attaque/Collisions_attaque.disabled = true
@@ -137,7 +142,7 @@ func _physics_process(delta):
 		bloquage_regeneration = true
 
 	# Verrouillage
-	if input_verrouillage:
+	if input_verrouillage and has_node("/root/Main/Mob") and mob.visible == true:
 		bloquage_rotation = not bloquage_rotation
 	# Si la rotation est bloquée (verrouillage en cours)
 	if bloquage_rotation:
@@ -170,6 +175,11 @@ func _physics_process(delta):
 		if regeneration_en_cours:
 			endurance += 0.5
 			emit_signal("modification_endurance", endurance)
+	
+	# Champ de vision
+	for noeud in noeuds_visibles:
+		if noeud.collision_layer == noms_collision_layers["Mob"]:
+			noeud.visible = true
 
 	# Modification de la position du joueur 
 	position += direction.normalized() * delta * vitesse
@@ -191,7 +201,7 @@ func start(pause):
 func verrouillage():
 	# Vérifictaion de la présence d'un ennemi
 	if has_node("/root/Main/Mob"):
-		var mob_position = rad_to_deg(position.angle_to_point(mob.position))
+		mob_position = rad_to_deg(position.angle_to_point(mob.position))
 		champ_de_vision.orientation(mob.position - position)
 		if not bloquage_input:
 			if mob_position > 45 and mob_position < 135:
@@ -253,3 +263,13 @@ func _on_detection_body_entered(body):
 	if body.collision_layer == noms_collision_layers["Mob"]:
 		# Prise de dégats
 		composant_degats.prise_de_degats(self, vie, mob.degats)
+
+# En cas de collision avec l'arme
+func _on_attaque_body_entered(body):
+	if body.collision_layer == noms_collision_layers["Mur"]:
+		animations.seek(0.5, true)
+		_on_animations_animation_finished("Attaque")
+
+# Fonction d'actualisation des noeuds visibles
+func _lorsque_actualisation_noeuds_visibles(liste_noeuds_visibles):
+	noeuds_visibles = liste_noeuds_visibles

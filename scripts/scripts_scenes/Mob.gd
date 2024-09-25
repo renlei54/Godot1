@@ -12,13 +12,16 @@ var direction
 @onready var joueur = $/root/Main/Joueur
 @onready var composant_degats = $Composant_degats
 @onready var navigation_agent = $Navigation_agent
+
 func _ready():
 	# Initialisation de la vie du mob
 	vie.value = vie_max
 
 func _physics_process(delta):
-	# direction = to_local(navigation_agent.get_next_path_position()).normalized()
-	# position += direction.normalized() * delta * vitesse
+	visible = false
+	# Suivi du chemin le plus court pour se rendre au joueur
+	direction = to_local(navigation_agent.get_next_path_position()).normalized()
+	position += direction.normalized() * delta * vitesse
 	move_and_slide()
 
 func _on_navigation_timer_timeout():
