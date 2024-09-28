@@ -6,11 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://bmb7pcg2usegk" path="res://scenes/joueur.tscn" id="6_4xv2f"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_nee6v"]
-vertices = PackedVector2Array(1092, -41, 1101, 739, 778, 373, 778, 333, -49, 753, 573, 373, -49, -40, 613, 268, 573, 268, 613, 333)
+vertices = PackedVector2Array(1082, -31, 1091, 729, 788, 383, 788, 323, -39, 743, 563, 383, -39, -30, 623, 258, 563, 258, 623, 323)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(2, 1, 4, 5), PackedInt32Array(6, 0, 3, 7), PackedInt32Array(5, 4, 6, 8), PackedInt32Array(3, 9, 7), PackedInt32Array(6, 7, 8)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(1112, 749, -59, 764, -59, -50, 1102, -52)])
 source_geometry_mode = 1
 source_geometry_group_name = &"blocs"
+agent_radius = 20.0
 
 [node name="Main" type="Node"]
 script = ExtResource("1_47jvr")
@@ -25,10 +26,10 @@ position = Vector2(697, 411)
 [node name="Position_depart_mob2" type="Marker2D" parent="."]
 position = Vector2(600, 411)
 
-[node name="Mob" parent="." instance=ExtResource("3_nrysj")]
+[node name="Mob" parent="." groups=["bloc"] instance=ExtResource("3_nrysj")]
 position = Vector2(622, 472)
 
-[node name="Mob2" parent="." instance=ExtResource("3_nrysj")]
+[node name="Mob2" parent="." groups=["bloc"] instance=ExtResource("3_nrysj")]
 
 [node name="Mur" parent="." groups=["blocs"] instance=ExtResource("5_tqayu")]
 position = Vector2(618, 354)

@@ -30,31 +30,37 @@ var input_attaque = false
 var input_verrouillage = false
 var input_roulade = false
 var input_potion_vie = false
+var input_ciblage_droite = false
+var input_ciblage_gauche = false
+var input_ciblage_haut = false
+var input_ciblage_bas = false
 # Noeuds
-@onready var mob = $/root/Main/Mob
+@onready var mobs = []
+@onready var mob_cible 
+@onready var mob_distance
 @onready var mob_position
 @onready var animations = $Animations
 @onready var composant_degats = $Composant_degats 
 @onready var attaque = $Attaque
 @onready var timer_regeneration = $Timer_regenaration
 @onready var champ_de_vision = $Champ_de_vision
+@onready var main = get_parent()
 # Signaux
 signal modification_vie(nouvelle_valeur_vie)
 signal modification_endurance(nouvelle_valeur_endurance)
 signal modification_nombre_potions_vie(nouveau_nombre_potions_vie)
 
 func _ready():
-	
-	# Connection au signal du champ de vision
-	champ_de_vision.connect("actualisation_noeuds_visibles", Callable(self, "_lorsque_actualisation_noeuds_visibles"))
-	
+
 	# Désactivation des collisions de l'attaque
 	$Attaque/Collisions_attaque.disabled = true
 	$Detection/Collisions_detection.disabled = false
 	$Spritesheet_marche.visible = true
 	
 	hide()
-
+	
+	main.connect("suppression_entite", Callable(self, "_lorsque_suppression_entite"))
+	
 func _physics_process(delta):
 
 	# Lecture des inputs
@@ -66,6 +72,10 @@ func _physics_process(delta):
 	input_verrouillage = false
 	input_roulade = false
 	input_potion_vie = false
+	input_ciblage_droite = false
+	input_ciblage_gauche = false
+	input_ciblage_haut = false
+	input_ciblage_bas = false
 	if not bloquage_input:
 		input_deplacement_droite = Input.is_action_pressed("Deplacement_droite")
 		input_deplacement_gauche = Input.is_action_pressed("Deplacement_gauche")
@@ -75,6 +85,10 @@ func _physics_process(delta):
 		input_verrouillage = Input.is_action_just_pressed("Verrouillage")
 		input_roulade = Input.is_action_just_pressed("Roulade")
 		input_potion_vie = Input.is_action_just_pressed("Potion_vie")
+		input_ciblage_droite = Input.is_action_just_pressed("Ciblage_droite")
+		input_ciblage_gauche = Input.is_action_just_pressed("Ciblage_gauche")
+		input_ciblage_haut = Input.is_action_just_pressed("Ciblage_haut")
+		input_ciblage_bas = Input.is_action_just_pressed("Ciblage_bas")
 		
 		# Lecture de l'animation d'Idle si le joueur ne se déplace pas
 		if direction.length() == 0:
@@ -142,11 +156,24 @@ func _physics_process(delta):
 		bloquage_regeneration = true
 
 	# Verrouillage
-	if input_verrouillage and has_node("/root/Main/Mob") and mob.visible == true:
-		bloquage_rotation = not bloquage_rotation
+	if input_verrouillage:
+		if bloquage_rotation:
+			bloquage_rotation = false
+		else:
+			ciblage_mob()
+			bloquage_rotation = true
+
 	# Si la rotation est bloquée (verrouillage en cours)
 	if bloquage_rotation:
-		verrouillage()
+		if input_ciblage_droite:
+			ciblage_mob()
+		if input_ciblage_gauche:
+			ciblage_mob()
+		if input_ciblage_haut:
+			ciblage_mob()
+		if input_ciblage_bas:
+			ciblage_mob()
+		verrouillage(mob_cible)
 
 	# Utilisation d'une potion de vie
 	if input_potion_vie and nombre_potions_vie > 0 and vie < vie_max:
@@ -177,9 +204,11 @@ func _physics_process(delta):
 			emit_signal("modification_endurance", endurance)
 	
 	# Champ de vision
-	for noeud in noeuds_visibles:
-		if noeud.collision_layer == noms_collision_layers["Mob"]:
-			noeud.visible = true
+	for mob in mobs:
+		if mob in noeuds_visibles:
+			mob.visible = true
+		else:
+			mob.visible = false
 
 	# Modification de la position du joueur 
 	position += direction.normalized() * delta * vitesse
@@ -198,11 +227,10 @@ func start(pause):
 	show()
 
 # Fonction de verrouillage
-func verrouillage():
-	# Vérifictaion de la présence d'un ennemi
-	if has_node("/root/Main/Mob"):
-		mob_position = rad_to_deg(position.angle_to_point(mob.position))
-		champ_de_vision.orientation(mob.position - position)
+func verrouillage(cible):
+	if is_instance_valid(cible):
+		mob_position = rad_to_deg(position.angle_to_point(cible.position))
+		champ_de_vision.orientation(cible.position - position)
 		if not bloquage_input:
 			if mob_position > 45 and mob_position < 135:
 				orientation = "bas"
@@ -216,9 +244,8 @@ func verrouillage():
 			else:
 				orientation = "gauche"
 				attaque.rotation_degrees = 180
-	# Dévérouillage s'il n'y a plus d'ennemis
 	else:
-		bloquage_rotation = not bloquage_rotation
+		ciblage_mob()
 
  # Fonction de fin d'animation
 func _on_animations_animation_finished(_anim_name):
@@ -262,7 +289,7 @@ func _on_detection_body_entered(body):
 	# Si c'est avec un ennemi
 	if body.collision_layer == noms_collision_layers["Mob"]:
 		# Prise de dégats
-		composant_degats.prise_de_degats(self, vie, mob.degats)
+		composant_degats.prise_de_degats(self, vie, body.degats)
 
 # En cas de collision avec l'arme
 func _on_attaque_body_entered(body):
@@ -270,6 +297,28 @@ func _on_attaque_body_entered(body):
 		animations.seek(0.5, true)
 		_on_animations_animation_finished("Attaque")
 
-# Fonction d'actualisation des noeuds visibles
-func _lorsque_actualisation_noeuds_visibles(liste_noeuds_visibles):
-	noeuds_visibles = liste_noeuds_visibles
+# Fonction de choix de cible
+func ciblage_mob():
+	mob_distance = INF
+	mob_cible = null
+
+	for noeud in noeuds_visibles:
+		if noeud in mobs:
+			if global_position.distance_to(noeud.global_position) < mob_distance:
+				mob_distance = global_position.distance_to(noeud.global_position)
+				mob_cible = noeud
+
+	if mob_cible == null:
+		bloquage_rotation = false
+
+# Fonction de recherche des mobs
+func recherche_mobs():
+	for entite in main.liste_entites:
+		if entite.name.begins_with("Mob"):
+			mobs.append(entite)
+
+# En cas de suppression d'une entite
+func _lorsque_suppression_entite(entite):
+	if entite in mobs:
+		mobs.erase(entite)
+	

@@ -12,8 +12,6 @@ var distance_vision = 1000
 # Noeuds
 @onready var parent = get_parent()
 @onready var noms_collision_layers = $Noms_collision_layers.noms_collision_layers
-# Signaux
-signal actualisation_noeuds_visibles(liste_noeuds)
 
 func _ready():
 	# Création du nouveau rayon
@@ -68,7 +66,7 @@ func _process(_delta):
 		objets_visibles_rayon = []
 	
 	# Emmission de la liste des noeuds visibles après avoir parcouru tous les rayons
-	emit_signal("actualisation_noeuds_visibles", objets_visibles_joueur)
+	parent.noeuds_visibles = objets_visibles_joueur
 	
 	# Réinitialisation des objets visibles
 	objets_visibles_joueur = []

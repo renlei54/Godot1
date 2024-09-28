@@ -18,7 +18,6 @@ func _ready():
 	vie.value = vie_max
 
 func _physics_process(delta):
-	visible = false
 	# Suivi du chemin le plus court pour se rendre au joueur
 	direction = to_local(navigation_agent.get_next_path_position()).normalized()
 	position += direction.normalized() * delta * vitesse
