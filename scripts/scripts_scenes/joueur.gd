@@ -36,6 +36,8 @@ var input_ciblage_haut = false
 var input_ciblage_bas = false
 # Noeuds
 @onready var mobs = []
+@onready var mobs_positions_x = []
+@onready var mobs_positions_y = []
 @onready var mob_cible 
 @onready var mob_distance
 @onready var mob_position
@@ -45,6 +47,7 @@ var input_ciblage_bas = false
 @onready var timer_regeneration = $Timer_regenaration
 @onready var champ_de_vision = $Champ_de_vision
 @onready var main = get_parent()
+@onready var viseur = $Viseur
 # Signaux
 signal modification_vie(nouvelle_valeur_vie)
 signal modification_endurance(nouvelle_valeur_endurance)
@@ -56,6 +59,7 @@ func _ready():
 	$Attaque/Collisions_attaque.disabled = true
 	$Detection/Collisions_detection.disabled = false
 	$Spritesheet_marche.visible = true
+	viseur.visible = false
 	
 	hide()
 	
@@ -158,22 +162,32 @@ func _physics_process(delta):
 	# Verrouillage
 	if input_verrouillage:
 		if bloquage_rotation:
+			viseur.visible = false
 			bloquage_rotation = false
 		else:
-			ciblage_mob()
+			viseur.visible = true
+			ciblage_mob_proche()
 			bloquage_rotation = true
 
 	# Si la rotation est bloquée (verrouillage en cours)
 	if bloquage_rotation:
 		if input_ciblage_droite:
-			ciblage_mob()
+			tri_mobs_visibles_positions()
+			if (mobs_positions_x.find(mob_cible) + 1) >= 0 and len(mobs_positions_x) > (mobs_positions_x.find(mob_cible) + 1):
+				mob_cible = mobs_positions_x[mobs_positions_x.find(mob_cible) + 1]
 		if input_ciblage_gauche:
-			ciblage_mob()
+			tri_mobs_visibles_positions()
+			if (mobs_positions_x.find(mob_cible) - 1) >= 0 and len(mobs_positions_x) > (mobs_positions_x.find(mob_cible) - 1):
+					mob_cible = mobs_positions_x[mobs_positions_x.find(mob_cible) - 1]
 		if input_ciblage_haut:
-			ciblage_mob()
+			tri_mobs_visibles_positions()
+			if (mobs_positions_y.find(mob_cible) - 1) >= 0 and len(mobs_positions_y) > (mobs_positions_y.find(mob_cible) - 1):
+				mob_cible = mobs_positions_y[mobs_positions_y.find(mob_cible) - 1]
 		if input_ciblage_bas:
-			ciblage_mob()
-		verrouillage(mob_cible)
+			tri_mobs_visibles_positions()
+			if (mobs_positions_y.find(mob_cible) + 1) >= 0 and len(mobs_positions_y) > (mobs_positions_y.find(mob_cible) + 1):
+				mob_cible = mobs_positions_y[mobs_positions_y.find(mob_cible) + 1]
+		verrouillage(mob_cible, delta)
 
 	# Utilisation d'une potion de vie
 	if input_potion_vie and nombre_potions_vie > 0 and vie < vie_max:
@@ -227,8 +241,9 @@ func start(pause):
 	show()
 
 # Fonction de verrouillage
-func verrouillage(cible):
+func verrouillage(cible, delta):
 	if is_instance_valid(cible):
+		viseur.global_position = mob_cible.position - direction.normalized() * vitesse * delta
 		mob_position = rad_to_deg(position.angle_to_point(cible.position))
 		champ_de_vision.orientation(cible.position - position)
 		if not bloquage_input:
@@ -245,7 +260,7 @@ func verrouillage(cible):
 				orientation = "gauche"
 				attaque.rotation_degrees = 180
 	else:
-		ciblage_mob()
+		ciblage_mob_proche()
 
  # Fonction de fin d'animation
 func _on_animations_animation_finished(_anim_name):
@@ -298,7 +313,7 @@ func _on_attaque_body_entered(body):
 		_on_animations_animation_finished("Attaque")
 
 # Fonction de choix de cible
-func ciblage_mob():
+func ciblage_mob_proche():
 	mob_distance = INF
 	mob_cible = null
 
@@ -309,6 +324,7 @@ func ciblage_mob():
 				mob_cible = noeud
 
 	if mob_cible == null:
+		viseur.visible = false
 		bloquage_rotation = false
 
 # Fonction de recherche des mobs
@@ -317,8 +333,29 @@ func recherche_mobs():
 		if entite.name.begins_with("Mob"):
 			mobs.append(entite)
 
+# Fonction de comparaison pour trier par position.x
+func compare_x(a, b):
+	return a.position.x < b.position.x
+	
+# Fonction de comparaison pour trier par position.y
+func compare_y(a, b):
+	return a.position.y < b.position.y
+
+# Fonction de tri des coordonnées des mobs visibles
+func tri_mobs_visibles_positions():
+
+	mobs_positions_x = []
+	mobs_positions_y = []
+
+	for noeud in noeuds_visibles:
+		if noeud in mobs:
+			mobs_positions_x.append(noeud)
+			mobs_positions_y.append(noeud)
+
+	mobs_positions_x.sort_custom(compare_x)
+	mobs_positions_y.sort_custom(compare_y)
+
 # En cas de suppression d'une entite
 func _lorsque_suppression_entite(entite):
 	if entite in mobs:
 		mobs.erase(entite)
-	
