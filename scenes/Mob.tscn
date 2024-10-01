@@ -24,7 +24,6 @@ texture = ExtResource("2_65ios")
 script = ExtResource("3_vq65d")
 
 [node name="Navigation_agent" type="NavigationAgent2D" parent="."]
-debug_enabled = true
 
 [node name="Navigation_timer" type="Timer" parent="."]
 wait_time = 0.5

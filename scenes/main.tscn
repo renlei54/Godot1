@@ -1,14 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://b131p7uytty1v"]
+[gd_scene load_steps=7 format=3 uid="uid://b131p7uytty1v"]
 
 [ext_resource type="Script" path="res://scripts/scripts_scenes/main.gd" id="1_47jvr"]
 [ext_resource type="PackedScene" uid="uid://cipuvkeqpfjpj" path="res://scenes/Mob.tscn" id="3_nrysj"]
 [ext_resource type="PackedScene" uid="uid://de6qqofb04s0d" path="res://scenes/monde1.tscn" id="5_5on1q"]
+[ext_resource type="PackedScene" uid="uid://dwlyjal1wsoes" path="res://scenes/hud.tscn" id="5_guva4"]
 [ext_resource type="PackedScene" uid="uid://bmb7pcg2usegk" path="res://scenes/joueur.tscn" id="6_4xv2f"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_sdmjq"]
-vertices = PackedVector2Array(877, 422, 1408, 769, -58, 767, 505, 422, 1406, -135, 877, 370, -85, -135, 505, 146, 557, 146, 557, 370)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 1, 0, 5), PackedInt32Array(3, 2, 6, 7), PackedInt32Array(7, 6, 4, 8), PackedInt32Array(8, 4, 5, 9)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-95, -145, 1416, -145, 1419, 780, -68, 777)])
+vertices = PackedVector2Array(1597, 1670, 1825, 1749, -89, 1741, -39, 1670, -58, -8, -39, 34, 1838, -42, 1597, 34, 1545, 1618, 13, 1618, 349, 1462, 1389, 1222, 809, 194, 809, 582, 765, 422, 765, 370, 1545, 86, 1389, 1170, 1277, 582, 1277, 530, 1213, 918, 1213, 866, 297, 1462, 681, 1170, 621, 918, 621, 1318, 681, 1222, 13, 86, 297, 1026, 569, 866, 637, 678, 861, 530, 861, 194, 365, 258, 365, 678, 441, 422, 585, 422, 585, 678, 349, 1026, 441, 370, 637, 422, 313, 678, 569, 1318, 313, 258)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(3, 2, 4, 5), PackedInt32Array(5, 4, 6, 7), PackedInt32Array(6, 1, 0, 7), PackedInt32Array(8, 9, 10, 11), PackedInt32Array(12, 13, 14, 15), PackedInt32Array(16, 8, 11, 17), PackedInt32Array(16, 17, 18, 19), PackedInt32Array(18, 17, 20, 21), PackedInt32Array(22, 10, 9), PackedInt32Array(20, 17, 23, 24), PackedInt32Array(25, 24, 23, 26), PackedInt32Array(22, 9, 27, 28), PackedInt32Array(13, 18, 21, 29, 30), PackedInt32Array(19, 31, 32, 16), PackedInt32Array(27, 16, 32, 12), PackedInt32Array(27, 12, 15, 33), PackedInt32Array(34, 35, 36, 37, 29, 38), PackedInt32Array(35, 34, 33, 39), PackedInt32Array(30, 40, 14, 13), PackedInt32Array(37, 30, 29), PackedInt32Array(38, 28, 27, 41), PackedInt32Array(25, 26, 11), PackedInt32Array(25, 11, 10), PackedInt32Array(42, 25, 10), PackedInt32Array(42, 10, 38, 29), PackedInt32Array(41, 34, 38), PackedInt32Array(43, 41, 27), PackedInt32Array(15, 39, 33), PackedInt32Array(43, 27, 33)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-68, -18, 1849, -53, 1835, 1760, -100, 1751)])
 source_geometry_mode = 1
 source_geometry_group_name = &"bloc"
 
@@ -37,3 +38,13 @@ position = Vector2(622, 472)
 [node name="Mob2" parent="." groups=["mob"] instance=ExtResource("3_nrysj")]
 
 [node name="Joueur" parent="." instance=ExtResource("6_4xv2f")]
+
+[node name="Camera" type="Camera2D" parent="Joueur"]
+limit_left = 0
+limit_top = 0
+limit_right = 1616
+limit_bottom = 1616
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("5_guva4")]
