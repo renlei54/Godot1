@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
 # Variables globales
-@onready var noms_collision_layers = $Noms_collision_layers.noms_collision_layers
 var direction
 # Statistiques mob
 @onready var vie = $Vie_mob
@@ -35,6 +34,6 @@ func _on_composant_degats_degats_pris(vie_actuelle):
 # En cas de détection
 func _on_detection_area_entered(area):
 	# Si c'est avec un arme
-	if area.collision_layer == noms_collision_layers["Arme"]:
+	if area.is_in_group("arme"):
 		# Prise de dégats
 		composant_degats.prise_de_degats(self, vie.value, joueur.degats)

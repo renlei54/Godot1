@@ -2,16 +2,15 @@
 
 [ext_resource type="Script" path="res://scripts/scripts_scenes/main.gd" id="1_47jvr"]
 [ext_resource type="PackedScene" uid="uid://cipuvkeqpfjpj" path="res://scenes/Mob.tscn" id="3_nrysj"]
-[ext_resource type="PackedScene" uid="uid://bb3a61tlwpobj" path="res://scenes/mur.tscn" id="5_tqayu"]
+[ext_resource type="PackedScene" uid="uid://de6qqofb04s0d" path="res://scenes/monde1.tscn" id="5_5on1q"]
 [ext_resource type="PackedScene" uid="uid://bmb7pcg2usegk" path="res://scenes/joueur.tscn" id="6_4xv2f"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_nee6v"]
-vertices = PackedVector2Array(1082, -31, 1091, 729, 788, 383, 788, 323, -39, 743, 563, 383, -39, -30, 623, 258, 563, 258, 623, 323)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(2, 1, 4, 5), PackedInt32Array(6, 0, 3, 7), PackedInt32Array(5, 4, 6, 8), PackedInt32Array(3, 9, 7), PackedInt32Array(6, 7, 8)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(1112, 749, -59, 764, -59, -50, 1102, -52)])
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_sdmjq"]
+vertices = PackedVector2Array(877, 422, 1408, 769, -58, 767, 505, 422, 1406, -135, 877, 370, -85, -135, 505, 146, 557, 146, 557, 370)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 1, 0, 5), PackedInt32Array(3, 2, 6, 7), PackedInt32Array(7, 6, 4, 8), PackedInt32Array(8, 4, 5, 9)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-95, -145, 1416, -145, 1419, 780, -68, 777)])
 source_geometry_mode = 1
-source_geometry_group_name = &"blocs"
-agent_radius = 20.0
+source_geometry_group_name = &"bloc"
 
 [node name="Main" type="Node"]
 script = ExtResource("1_47jvr")
@@ -26,16 +25,15 @@ position = Vector2(697, 411)
 [node name="Position_depart_mob2" type="Marker2D" parent="."]
 position = Vector2(600, 411)
 
-[node name="Mob" parent="." groups=["bloc"] instance=ExtResource("3_nrysj")]
-position = Vector2(622, 472)
-
-[node name="Mob2" parent="." groups=["bloc"] instance=ExtResource("3_nrysj")]
-
-[node name="Mur" parent="." groups=["blocs"] instance=ExtResource("5_tqayu")]
-position = Vector2(618, 354)
-
-[node name="Joueur" parent="." instance=ExtResource("6_4xv2f")]
+[node name="Monde1" parent="." groups=["bloc"] instance=ExtResource("5_5on1q")]
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-position = Vector2(25, 1)
-navigation_polygon = SubResource("NavigationPolygon_nee6v")
+position = Vector2(29, -44)
+navigation_polygon = SubResource("NavigationPolygon_sdmjq")
+
+[node name="Mob" parent="." groups=["mob"] instance=ExtResource("3_nrysj")]
+position = Vector2(622, 472)
+
+[node name="Mob2" parent="." groups=["mob"] instance=ExtResource("3_nrysj")]
+
+[node name="Joueur" parent="." instance=ExtResource("6_4xv2f")]

@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
 # Variable globales 
-@onready var noms_collision_layers = $Noms_collision_layers.noms_collision_layers
 @onready var regeneration_en_cours = false
 @export var direction = Vector2.ZERO
 var orientation
@@ -40,7 +39,7 @@ var input_ciblage_bas = false
 @onready var mobs_positions_y = []
 @onready var mob_cible 
 @onready var mob_distance
-@onready var mob_position
+@onready var cible_position
 @onready var animations = $Animations
 @onready var composant_degats = $Composant_degats 
 @onready var attaque = $Attaque
@@ -171,6 +170,7 @@ func _physics_process(delta):
 
 	# Si la rotation est bloquée (verrouillage en cours)
 	if bloquage_rotation:
+		# Changement de la cible en fonction de la touche appuyée
 		if input_ciblage_droite:
 			tri_mobs_visibles_positions()
 			if (mobs_positions_x.find(mob_cible) + 1) >= 0 and len(mobs_positions_x) > (mobs_positions_x.find(mob_cible) + 1):
@@ -187,6 +187,7 @@ func _physics_process(delta):
 			tri_mobs_visibles_positions()
 			if (mobs_positions_y.find(mob_cible) + 1) >= 0 and len(mobs_positions_y) > (mobs_positions_y.find(mob_cible) + 1):
 				mob_cible = mobs_positions_y[mobs_positions_y.find(mob_cible) + 1]
+		# Verrouillage
 		verrouillage(mob_cible, delta)
 
 	# Utilisation d'une potion de vie
@@ -242,23 +243,29 @@ func start(pause):
 
 # Fonction de verrouillage
 func verrouillage(cible, delta):
+	# Si la cible n'est pas morte ou invalide
 	if is_instance_valid(cible):
+		# Centrage du viseur sur la cible
 		viseur.global_position = mob_cible.position - direction.normalized() * vitesse * delta
-		mob_position = rad_to_deg(position.angle_to_point(cible.position))
+		# Recherche de la position de la cible
+		cible_position = rad_to_deg(position.angle_to_point(cible.position))
+		# Orientation du champ de vision
 		champ_de_vision.orientation(cible.position - position)
+		# Orientation du joueur en fonction de la position de la cible
 		if not bloquage_input:
-			if mob_position > 45 and mob_position < 135:
+			if cible_position > 45 and cible_position < 135:
 				orientation = "bas"
 				attaque.rotation_degrees = 90
-			elif mob_position < 45 and mob_position > -45:
+			elif cible_position < 45 and cible_position > -45:
 				orientation = "droite"
 				attaque.rotation_degrees = 0
-			elif mob_position < -45 and mob_position > -135:
+			elif cible_position < -45 and cible_position > -135:
 				orientation = "haut"
 				attaque.rotation_degrees = -90
 			else:
 				orientation = "gauche"
 				attaque.rotation_degrees = 180
+	# Recherche d'une nouvelle cible si la cible actuelle n'est pas valide
 	else:
 		ciblage_mob_proche()
 
@@ -302,13 +309,13 @@ func _on_timer_regenaration_timeout():
 # En cas de détection
 func _on_detection_body_entered(body):	
 	# Si c'est avec un ennemi
-	if body.collision_layer == noms_collision_layers["Mob"]:
+	if body.is_in_group("mob"):
 		# Prise de dégats
 		composant_degats.prise_de_degats(self, vie, body.degats)
 
 # En cas de collision avec l'arme
 func _on_attaque_body_entered(body):
-	if body.collision_layer == noms_collision_layers["Mur"]:
+	if body.is_in_group("bloc"):
 		animations.seek(0.5, true)
 		_on_animations_animation_finished("Attaque")
 

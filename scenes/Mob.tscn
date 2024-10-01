@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cipuvkeqpfjpj"]
 
 [ext_resource type="Script" path="res://scripts/scripts_scenes/Mob.gd" id="1_bae5k"]
-[ext_resource type="Script" path="res://scripts/noms_collision_layers.gd" id="2_3ewy8"]
+[ext_resource type="Texture2D" uid="uid://vwoltqtdfkdw" path="res://art/mob.png" id="2_65ios"]
 [ext_resource type="Script" path="res://scripts/composants/composant_degats.gd" id="3_vq65d"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vf8li"]
@@ -10,7 +10,6 @@
 radius = 11.0
 
 [node name="Mob" type="CharacterBody2D"]
-visible = false
 collision_layer = 4
 collision_mask = 14
 script = ExtResource("1_bae5k")
@@ -18,8 +17,8 @@ script = ExtResource("1_bae5k")
 [node name="Collisions_mob" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_vf8li")
 
-[node name="Noms_collision_layers" type="Node" parent="."]
-script = ExtResource("2_3ewy8")
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_65ios")
 
 [node name="Composant_degats" type="Node" parent="."]
 script = ExtResource("3_vq65d")

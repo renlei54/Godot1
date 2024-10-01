@@ -11,7 +11,6 @@ var angle_vision = 120.0
 var distance_vision = 1000
 # Noeuds
 @onready var parent = get_parent()
-@onready var noms_collision_layers = $Noms_collision_layers.noms_collision_layers
 
 func _ready():
 	# Création du nouveau rayon
@@ -40,7 +39,7 @@ func _process(_delta):
 			# Récupération de l'rencontreet
 			rencontre = rayon.get_collider()
 			# Si c'est un mur
-			if rencontre.name == "Mur":
+			if rencontre.is_in_group("bloc"):
 				# Actualisation de la distance
 				rayon.target_position = rayon.target_position.normalized() * rayon.global_position.distance_to(rayon.get_collision_point())
 				# Fin de la recherche

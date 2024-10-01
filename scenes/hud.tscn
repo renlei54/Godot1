@@ -6,9 +6,8 @@
 font_size = 50
 
 [node name="HUD" type="CanvasGroup"]
-position = Vector2(-536, -352)
+position = Vector2(1, 1)
 script = ExtResource("1_o1dd4")
-metadata/_edit_group_ = true
 
 [node name="Vie_joueur" type="ProgressBar" parent="."]
 offset_right = 373.0
@@ -26,10 +25,9 @@ show_percentage = false
 metadata/_edit_use_anchors_ = true
 
 [node name="Compteur_potions_vie" type="Label" parent="."]
-offset_left = 1.0
-offset_top = 651.0
-offset_right = 30.0
-offset_bottom = 720.0
+offset_left = -1.0
+offset_top = 578.0
+offset_right = 28.0
+offset_bottom = 647.0
 text = "1"
 label_settings = SubResource("LabelSettings_l0inb")
-metadata/_edit_use_anchors_ = true

@@ -11,6 +11,10 @@ extends Node
 @onready var position_depart_mob2 = $Position_depart_mob2
 @onready var liste_entites = []
 
+
+@onready var tilemap = $Monde1
+@onready var navigation_region = $NavigationRegion2D
+
 # Signaux
 signal suppression_entite(entite)
 
@@ -39,3 +43,4 @@ func recherche_entites():
 	liste_entites = []
 	for entite in get_children():
 		liste_entites.append(entite)
+

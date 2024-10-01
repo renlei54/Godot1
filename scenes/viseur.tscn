@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://bmcfkiw8duync"]
 
-[ext_resource type="Texture2D" uid="uid://bfmi4r63emwxj" path="res://icon.svg" id="1_f3pda"]
+[ext_resource type="Texture2D" uid="uid://xk55go68700k" path="res://art/viseur.png" id="1_7u8oq"]
 
 [node name="Viseur" type="Sprite2D"]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_f3pda")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_7u8oq")

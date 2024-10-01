@@ -1,6 +1,7 @@
-[gd_scene load_steps=30 format=3 uid="uid://bmb7pcg2usegk"]
+[gd_scene load_steps=31 format=3 uid="uid://bmb7pcg2usegk"]
 
 [ext_resource type="Script" path="res://scripts/scripts_scenes/joueur.gd" id="1_tqrhm"]
+[ext_resource type="Script" path="res://scripts/noms_collision_layers.gd" id="2_2xfrt"]
 [ext_resource type="Script" path="res://scripts/composants/composant_degats.gd" id="3_nl4ug"]
 [ext_resource type="Texture2D" uid="uid://dqqtepttfdh8p" path="res://art/spritesheet_marche.png" id="4_f316f"]
 [ext_resource type="Texture2D" uid="uid://csn1tddlmbc1b" path="res://art/Sword/A1.png" id="5_upyxd"]
@@ -402,6 +403,9 @@ script = ExtResource("1_tqrhm")
 position = Vector2(-12, 0)
 shape = SubResource("CircleShape2D_p7lot")
 
+[node name="Noms_collision_layers" type="Node" parent="."]
+script = ExtResource("2_2xfrt")
+
 [node name="Composant_degats" type="Node" parent="."]
 script = ExtResource("3_nl4ug")
 
@@ -421,7 +425,7 @@ frame = 4
 [node name="Timer_regenaration" type="Timer" parent="."]
 wait_time = 0.75
 
-[node name="Attaque" type="Area2D" parent="." groups=["arme"]]
+[node name="Attaque" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 12
 

@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://b131p7uytty1v"]
+
+[ext_resource type="Script" path="res://scripts/scripts_scenes/main.gd" id="1_47jvr"]
+[ext_resource type="PackedScene" uid="uid://cipuvkeqpfjpj" path="res://scenes/Mob.tscn" id="3_nrysj"]
+[ext_resource type="PackedScene" uid="uid://de6qqofb04s0d" path="res://scenes/monde1.tscn" id="5_5on1q"]
+[ext_resource type="PackedScene" uid="uid://bmb7pcg2usegk" path="res://scenes/joueur.tscn" id="6_4xv2f"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_1v3ss"]
+vertices = PackedVector2Array(1134, -59, 1189, 706, -114, 769, -66, -66)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(1144, -69, -76, -77, -125, 780, 1200, 716)])
+source_geometry_mode = 2
+source_geometry_group_name = &"navigation_polygon_source_group"
+
+[node name="Main" type="Node"]
+script = ExtResource("1_47jvr")
+
+[node name="Position_depart_joueur" type="Marker2D" parent="."]
+position = Vector2(731, 215)
+scale = Vector2(5, 5)
+
+[node name="Position_depart_mob" type="Marker2D" parent="."]
+position = Vector2(697, 411)
+
+[node name="Position_depart_mob2" type="Marker2D" parent="."]
+position = Vector2(600, 411)
+
+[node name="Mob" parent="." groups=["bloc", "mob"] instance=ExtResource("3_nrysj")]
+position = Vector2(622, 472)
+
+[node name="Mob2" parent="." groups=["bloc", "mob"] instance=ExtResource("3_nrysj")]
+
+[node name="Joueur" parent="." instance=ExtResource("6_4xv2f")]
+
+[node name="Monde1" parent="." instance=ExtResource("5_5on1q")]
+position = Vector2(599, 298)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+position = Vector2(25, 1)
+navigation_polygon = SubResource("NavigationPolygon_1v3ss")
