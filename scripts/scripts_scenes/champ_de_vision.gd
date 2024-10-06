@@ -17,7 +17,7 @@ var distance_vision = 1000
 
 func _ready():
 	obturateur.occluder = OccluderPolygon2D.new()
-	obturateur.occluder.set_polygon([Vector2(0, -10), Vector2(-100, -100), Vector2(0, -20), Vector2(100, -100)])
+	obturateur.occluder.set_polygon([Vector2(0, 5), Vector2(-100, -100), Vector2(0, 10), Vector2(100, -100)])
 	
 	# Création du nouveau rayon
 	for i in range (nombre_rayons):
