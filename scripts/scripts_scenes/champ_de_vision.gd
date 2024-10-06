@@ -2,17 +2,23 @@ extends Node2D
 
 # Variables globales
 var rayons = []
+var lumieres = []
 var objets_visibles_rayon = []
 var objets_visibles_joueur = []
 var rencontre
 # Propriétés du champ de vision
 var nombre_rayons = 100
-var angle_vision = 120.0
+var angle_vision = 140.0
 var distance_vision = 1000
 # Noeuds
 @onready var parent = get_parent()
+@onready var lumiere = $Lumiere
+@onready var obturateur = $Lumiere/Obturateur
 
 func _ready():
+	obturateur.occluder = OccluderPolygon2D.new()
+	obturateur.occluder.set_polygon([Vector2(0, -10), Vector2(-100, -100), Vector2(0, -20), Vector2(100, -100)])
+	
 	# Création du nouveau rayon
 	for i in range (nombre_rayons):
 		# Initialisation
@@ -32,6 +38,7 @@ func _process(_delta):
 	for rayon in rayons:
 		# Actualisation de la distance
 		rayon.target_position = rayon.target_position.normalized() * distance_vision
+
 		# Calcul des nouvelles collisions
 		rayon.force_raycast_update()
 		# Tant que le rayon est en collision

@@ -1,6 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://cjx7ha1sno15k"]
+[gd_scene load_steps=4 format=3 uid="uid://cjx7ha1sno15k"]
 
 [ext_resource type="Script" path="res://scripts/scripts_scenes/champ_de_vision.gd" id="1_4sxyw"]
+[ext_resource type="Texture2D" uid="uid://dn27fhapjadkp" path="res://art/lumiere.png" id="2_53oqo"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_lanwb"]
+polygon = PackedVector2Array(600, -600, 0, 10, -600, -600, 0, 1)
 
 [node name="Champ_de_vision" type="Node2D"]
 script = ExtResource("1_4sxyw")
+
+[node name="Lumiere" type="PointLight2D" parent="."]
+position = Vector2(0, -1)
+shadow_enabled = true
+texture = ExtResource("2_53oqo")
+texture_scale = 2.0
+
+[node name="Obturateur" type="LightOccluder2D" parent="Lumiere"]
+position = Vector2(0, 1)
+scale = Vector2(0.420246, 0.485734)
+occluder = SubResource("OccluderPolygon2D_lanwb")
