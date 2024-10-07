@@ -17,8 +17,15 @@ var distance_vision = 1000
 
 func _ready():
 	obturateur.occluder = OccluderPolygon2D.new()
-	obturateur.occluder.set_polygon([Vector2(0, -10), Vector2(-100, -100), Vector2(0, -20), Vector2(100, -100)])
-	
+	var angle = deg_to_rad((180 - angle_vision) / 2)
+
+	obturateur.occluder.set_polygon([
+	Vector2(0, 10),  # Point central
+	Vector2(-cos(deg_to_rad((180 - angle_vision) / 2)) * distance_vision, -sin(deg_to_rad((180 - angle_vision) / 2)) * distance_vision),  # Gauche du polygone
+	Vector2(0, 20),  # Bas central du polygone
+	Vector2(cos(deg_to_rad((180 - angle_vision) / 2)) * distance_vision, -sin(deg_to_rad((180 - angle_vision) / 2)) * distance_vision)  # Droite du polygone
+	])
+
 	# Création du nouveau rayon
 	for i in range (nombre_rayons):
 		# Initialisation
@@ -82,5 +89,5 @@ func orientation(direction):
 	# Pour chaque rayon
 	for rayon in rayons:
 		rayon.rotation = direction.angle() + deg_to_rad((rayons.find(rayon) * angle_vision / (nombre_rayons - 1)) - (angle_vision / 2) - 90)
-	
+	lumiere.rotation = atan2(direction.y, direction.x) + (PI / 2)
 

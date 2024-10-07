@@ -13,7 +13,7 @@ script = ExtResource("1_4sxyw")
 position = Vector2(0, -1)
 shadow_enabled = true
 texture = ExtResource("2_53oqo")
-texture_scale = 2.0
+texture_scale = 5.0
 
 [node name="Obturateur" type="LightOccluder2D" parent="Lumiere"]
 position = Vector2(0, 1)
