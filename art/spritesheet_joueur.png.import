@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dqqtepttfdh8p"
-path="res://.godot/imported/spritesheet_marche.png-572695fbd51a52311d70a9fc7bb0ad12.ctex"
+uid="uid://dmn5k4ya43f3t"
+path="res://.godot/imported/spritesheet_joueur.png-1bbb7012d0021562a36a365451a0b131.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/spritesheet_marche.png"
-dest_files=["res://.godot/imported/spritesheet_marche.png-572695fbd51a52311d70a9fc7bb0ad12.ctex"]
+source_file="res://art/spritesheet_joueur.png"
+dest_files=["res://.godot/imported/spritesheet_joueur.png-1bbb7012d0021562a36a365451a0b131.ctex"]
 
 [params]
 

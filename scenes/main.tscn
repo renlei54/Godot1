@@ -18,14 +18,14 @@ agent_radius = 20.0
 script = ExtResource("1_47jvr")
 
 [node name="Position_depart_joueur" type="Marker2D" parent="."]
-position = Vector2(731, 215)
+position = Vector2(750, 200)
 scale = Vector2(5, 5)
 
 [node name="Position_depart_mob" type="Marker2D" parent="."]
-position = Vector2(697, 411)
+position = Vector2(750, 500)
 
 [node name="Position_depart_mob2" type="Marker2D" parent="."]
-position = Vector2(600, 411)
+position = Vector2(500, 500)
 
 [node name="Monde1" parent="." groups=["bloc"] instance=ExtResource("5_5on1q")]
 

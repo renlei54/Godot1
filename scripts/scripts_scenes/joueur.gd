@@ -57,7 +57,7 @@ func _ready():
 	# Désactivation des collisions de l'attaque
 	$Attaque/Collisions_attaque.disabled = true
 	$Detection/Collisions_detection.disabled = false
-	$Spritesheet_marche.visible = true
+	$Spritesheet_joueur.visible = true
 	viseur.visible = false
 	
 	hide()
@@ -154,7 +154,14 @@ func _physics_process(delta):
 		endurance -= 15
 		emit_signal("modification_endurance", endurance)
 		# Lecture de l'animation
-		animations.play("Attaque")
+		if orientation == "haut":
+			animations.play("Attaque_haut")
+		if orientation == "bas":
+			animations.play("Attaque_bas")
+		if orientation == "gauche":
+			animations.play("Attaque_gauche")
+		if orientation == "droite":
+			animations.play("Attaque_droite")
 		bloquage_input = true
 		bloquage_regeneration = true
 
@@ -202,7 +209,14 @@ func _physics_process(delta):
 		endurance -= 15
 		emit_signal("modification_endurance", endurance)
 		# Lecture de l'animation
-		animations.play("Roulade")
+		if orientation == "haut":
+			animations.play("Roulade_haut")
+		if orientation == "bas":
+			animations.play("Roulade_bas")
+		if orientation == "gauche":
+			animations.play("Roulade_gauche")
+		if orientation == "droite":
+			animations.play("Roulade_droite")
 		bloquage_input = true
 		bloquage_direction = true
 		bloquage_animations = true
@@ -280,6 +294,9 @@ func _on_animations_animation_finished(_anim_name):
 		bloquage_animations = false
 	if bloquage_regeneration:
 		bloquage_regeneration = false
+	# Fin d'animation de roulade
+	if _anim_name.begins_with("Roulade"):
+		vitesse = 400
 	# Fin d'animation de potion de vie
 	if _anim_name == "Potion":
 		# Modification de la vie actuelle
