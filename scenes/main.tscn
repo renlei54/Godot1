@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://b131p7uytty1v"]
+[gd_scene load_steps=8 format=3 uid="uid://b131p7uytty1v"]
 
 [ext_resource type="Script" path="res://scripts/scripts_scenes/main.gd" id="1_47jvr"]
 [ext_resource type="PackedScene" uid="uid://cipuvkeqpfjpj" path="res://scenes/Mob.tscn" id="3_nrysj"]
 [ext_resource type="PackedScene" uid="uid://de6qqofb04s0d" path="res://scenes/monde1.tscn" id="5_5on1q"]
 [ext_resource type="PackedScene" uid="uid://dwlyjal1wsoes" path="res://scenes/hud.tscn" id="5_guva4"]
 [ext_resource type="PackedScene" uid="uid://bmb7pcg2usegk" path="res://scenes/joueur.tscn" id="6_4xv2f"]
+[ext_resource type="PackedScene" uid="uid://bxbewlh54evid" path="res://scenes/menu.tscn" id="6_un8su"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_sdmjq"]
 vertices = PackedVector2Array(-79, 1731, -49, 56, -49, 1680, 1815, 1739, 1607, 1680, 1828, -32, 1607, 24, -48, 1, -48, 24, 1535, 1608, 23, 1608, 359, 1472, 1399, 1232, 799, 184, 799, 592, 775, 432, 775, 360, 1535, 96, 1399, 1160, 1287, 592, 1287, 520, 287, 1472, 1223, 928, 1223, 856, 671, 1160, 631, 928, 631, 1328, 671, 1232, 23, 96, 287, 1016, 559, 856, 647, 688, 871, 520, 871, 184, 375, 248, 375, 688, 431, 432, 575, 432, 575, 688, 359, 1016, 431, 360, 647, 432, 303, 688, 559, 1328, 303, 248)
@@ -38,7 +39,7 @@ position = Vector2(622, 472)
 
 [node name="Mob2" parent="." groups=["mob"] instance=ExtResource("3_nrysj")]
 
-[node name="Joueur" parent="." instance=ExtResource("6_4xv2f")]
+[node name="Joueur" parent="." groups=["bloc"] instance=ExtResource("6_4xv2f")]
 
 [node name="Camera" type="Camera2D" parent="Joueur"]
 limit_left = 0
@@ -49,3 +50,7 @@ limit_bottom = 1616
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HUD" parent="CanvasLayer" instance=ExtResource("5_guva4")]
+
+[node name="Menu" parent="CanvasLayer" instance=ExtResource("6_un8su")]
+visible = false
+position = Vector2(500, 250)

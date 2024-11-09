@@ -65,7 +65,6 @@ func _ready():
 	main.connect("suppression_entite", Callable(self, "_lorsque_suppression_entite"))
 	
 func _physics_process(delta):
-
 	# Lecture des inputs
 	input_deplacement_droite = false
 	input_deplacement_gauche = false
@@ -379,7 +378,7 @@ func tri_mobs_visibles_positions():
 	mobs_positions_x.sort_custom(compare_x)
 	mobs_positions_y.sort_custom(compare_y)
 
-# En cas de suppression d'une entite
+# En cas de suppression d'une entité
 func _lorsque_suppression_entite(entite):
 	if entite in mobs:
 		mobs.erase(entite)

@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxbewlh54evid"]
+
+[ext_resource type="Script" path="res://scripts/scripts_scenes/menu.gd" id="1_0ocwc"]
+
+[node name="Menu" type="CanvasGroup"]
+script = ExtResource("1_0ocwc")
+
+[node name="Bouton_reset" type="Button" parent="."]
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Recommencer"
+
+[node name="TextEdit" type="TextEdit" parent="."]
+offset_left = 144.0
+offset_right = 391.0
+offset_bottom = 146.0
+text = "Déplacements : ZQSD
+Attaque : Espace
+Roulade : Shift
+Verrouillage : Contrôle Gauche
+Modification cible : Flèches"
+
+[connection signal="button_down" from="Bouton_reset" to="." method="_on_bouton_reset_button_down"]

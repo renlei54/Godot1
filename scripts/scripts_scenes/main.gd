@@ -9,6 +9,7 @@ extends Node
 @onready var position_depart_joueur = $Position_depart_joueur
 @onready var position_depart_mob = $Position_depart_mob
 @onready var position_depart_mob2 = $Position_depart_mob2
+@onready var menu = $CanvasLayer/Menu
 @onready var liste_entites = []
 
 
@@ -38,6 +39,8 @@ func connection_elimination_entite():
 func _lorsque_suppression_noeud(noeud):
 	liste_entites.erase(noeud)
 	emit_signal("suppression_entite", noeud)
+	if noeud.name == "Joueur":
+		menu.visible = true
 
 func recherche_entites():
 	liste_entites = []

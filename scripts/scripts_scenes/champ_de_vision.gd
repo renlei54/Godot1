@@ -8,7 +8,7 @@ var objets_visibles_joueur = []
 var rencontre
 # Propriétés du champ de vision
 var nombre_rayons = 100
-var angle_vision = 140.0
+var angle_vision = 100.0
 var distance_vision = 1000
 # Noeuds
 @onready var parent = get_parent()
@@ -26,7 +26,7 @@ func _ready():
 	Vector2(cos(deg_to_rad((180 - angle_vision) / 2)) * distance_vision, -sin(deg_to_rad((180 - angle_vision) / 2)) * distance_vision)  # Droite du polygone
 	])
 
-	obturateur.occluder.set_polygon([Vector2(0, 5), Vector2(-100, -100), Vector2(0, 10), Vector2(100, -100)])
+	# obturateur.occluder.set_polygon([Vector2(0, 5), Vector2(-100, -100), Vector2(0, 10), Vector2(100, -100)])
 
 	# Création du nouveau rayon
 	for i in range (nombre_rayons):
