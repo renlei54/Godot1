@@ -10,10 +10,11 @@ polygon = PackedVector2Array(600, -600, 0, 10, -600, -600, 0, 1)
 script = ExtResource("1_4sxyw")
 
 [node name="Lumiere" type="PointLight2D" parent="."]
+visibility_layer = 0
 position = Vector2(0, -1)
 shadow_enabled = true
 texture = ExtResource("2_53oqo")
-texture_scale = 2.0
+texture_scale = 4.0
 
 [node name="Obturateur" type="LightOccluder2D" parent="Lumiere"]
 position = Vector2(0, 1)

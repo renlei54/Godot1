@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://b131p7uytty1v"]
+
+[ext_resource type="Script" path="res://scripts/scripts_scenes/main.gd" id="1_47jvr"]
+[ext_resource type="PackedScene" uid="uid://cipuvkeqpfjpj" path="res://scenes/Mob.tscn" id="3_nrysj"]
+[ext_resource type="PackedScene" uid="uid://dbv67sfo8lncg" path="res://scenes/monde1.tscn" id="5_5on1q"]
+[ext_resource type="PackedScene" uid="uid://dwlyjal1wsoes" path="res://scenes/hud.tscn" id="5_guva4"]
+[ext_resource type="PackedScene" uid="uid://bmb7pcg2usegk" path="res://scenes/joueur.tscn" id="6_4xv2f"]
+[ext_resource type="PackedScene" uid="uid://bxbewlh54evid" path="res://scenes/menu.tscn" id="6_un8su"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_sdmjq"]
+vertices = PackedVector2Array(-79, 1731, -49, 56, -49, 1680, 1815, 1739, 1607, 1680, 1828, -32, 1607, 24, -48, 1, -48, 24, 1271, 1264, 1335, 1352, 1263, 1352, 599, 1344, 599, 1272, 783, 1264, 1535, 96, 1535, 1608, 1415, 864, 1415, 568, 1343, 568, 1287, 528, 1287, 456, 1335, 1520, 23, 1608, 1039, 1520, 791, 1520, 527, 1520, 1143, 736, 1343, 864, 1015, 856, 503, 800, 783, 736, 1271, 968, 1015, 1088, 1199, 1192, 783, 1192, 943, 1088, 583, 576, 783, 232, 503, 728, 583, 296, 807, 1040, 943, 856, 1143, 664, 1199, 968, 1023, 528, 855, 664, 855, 232, 1023, 328, 511, 576, 807, 968, 415, 1040, 1095, 456, 1095, 328, 247, 504, 95, 368, 511, 368, 247, 728, 175, 504, 263, 1272, 263, 1080, 1263, 1448, 1039, 1448, 791, 1448, 527, 1448, 191, 1344, 175, 800, 191, 1080, 23, 96, 415, 968, 95, 296)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 0, 2, 4), PackedInt32Array(5, 3, 4, 6), PackedInt32Array(7, 5, 6, 8), PackedInt32Array(9, 10, 11, 12, 13, 14), PackedInt32Array(15, 16, 17, 18), PackedInt32Array(15, 18, 19, 20, 21), PackedInt32Array(22, 16, 23, 24), PackedInt32Array(25, 24, 23), PackedInt32Array(26, 25, 23), PackedInt32Array(27, 28, 29, 30, 31), PackedInt32Array(17, 16, 10, 9, 32, 28), PackedInt32Array(33, 34, 35, 36), PackedInt32Array(37, 38, 31, 30, 39), PackedInt32Array(38, 37, 40), PackedInt32Array(36, 35, 41, 42), PackedInt32Array(19, 28, 27, 43, 20), PackedInt32Array(44, 34, 33, 29), PackedInt32Array(45, 20, 43, 46), PackedInt32Array(45, 46, 47, 48), PackedInt32Array(49, 37, 39), PackedInt32Array(42, 41, 50), PackedInt32Array(51, 41, 35), PackedInt32Array(21, 52, 53, 15), PackedInt32Array(54, 55, 56, 49, 39), PackedInt32Array(39, 57, 54), PackedInt32Array(55, 54, 58), PackedInt32Array(14, 13, 59, 60, 51, 35), PackedInt32Array(11, 61, 62, 12), PackedInt32Array(62, 24, 25, 63), PackedInt32Array(12, 62, 63), PackedInt32Array(12, 63, 64, 65), PackedInt32Array(64, 26, 23, 65), PackedInt32Array(66, 67, 65, 23, 68, 55), PackedInt32Array(16, 22, 10), PackedInt32Array(66, 69, 51, 60, 67), PackedInt32Array(28, 32, 44, 29), PackedInt32Array(30, 29, 42), PackedInt32Array(30, 42, 50, 69, 66), PackedInt32Array(55, 58, 66), PackedInt32Array(70, 55, 68), PackedInt32Array(70, 68, 15, 38), PackedInt32Array(53, 48, 47, 15), PackedInt32Array(38, 40, 70), PackedInt32Array(15, 47, 38)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-68, -18, 1849, -53, 1835, 1760, -100, 1751)])
+source_geometry_mode = 1
+source_geometry_group_name = &"bloc"
+agent_radius = 20.0
+
+[node name="Main" type="Node"]
+script = ExtResource("1_47jvr")
+
+[node name="Monde1" parent="." groups=["bloc"] instance=ExtResource("5_5on1q")]
+
+[node name="Position_depart_joueur" type="Marker2D" parent="."]
+position = Vector2(750, 200)
+scale = Vector2(5, 5)
+
+[node name="Position_depart_mob" type="Marker2D" parent="."]
+position = Vector2(750, 500)
+
+[node name="Position_depart_mob2" type="Marker2D" parent="."]
+position = Vector2(500, 500)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+position = Vector2(29, -44)
+navigation_polygon = SubResource("NavigationPolygon_sdmjq")
+use_edge_connections = false
+
+[node name="Mob" parent="." groups=["mob"] instance=ExtResource("3_nrysj")]
+position = Vector2(622, 472)
+
+[node name="Mob2" parent="." groups=["mob"] instance=ExtResource("3_nrysj")]
+
+[node name="Joueur" parent="." groups=["bloc"] instance=ExtResource("6_4xv2f")]
+
+[node name="Camera" type="Camera2D" parent="Joueur"]
+limit_left = 0
+limit_top = 0
+limit_right = 1616
+limit_bottom = 1616
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("5_guva4")]
+
+[node name="Menu" parent="CanvasLayer" instance=ExtResource("6_un8su")]
+visible = false
+position = Vector2(500, 250)

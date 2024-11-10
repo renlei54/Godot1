@@ -551,9 +551,22 @@ _data = {
 radius = 13.0
 
 [node name="Joueur" type="CharacterBody2D"]
+z_as_relative = false
 collision_mask = 12
 motion_mode = 1
 script = ExtResource("1_tqrhm")
+
+[node name="Spritesheet_joueur" type="Sprite2D" parent="."]
+light_mask = 0
+position = Vector2(-10, 0)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("3_88xgf")
+hframes = 5
+vframes = 12
+frame = 6
+
+[node name="Champ_de_vision" parent="." instance=ExtResource("12_cxqv7")]
+position = Vector2(-12, 0)
 
 [node name="Collisions_joueur" type="CollisionShape2D" parent="."]
 position = Vector2(-12, 0)
@@ -566,14 +579,6 @@ script = ExtResource("3_nl4ug")
 libraries = {
 "": SubResource("AnimationLibrary_8icbj")
 }
-
-[node name="Spritesheet_joueur" type="Sprite2D" parent="."]
-position = Vector2(-10, 0)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("3_88xgf")
-hframes = 5
-vframes = 12
-frame = 6
 
 [node name="Timer_regenaration" type="Timer" parent="."]
 wait_time = 0.75
@@ -597,9 +602,6 @@ collision_mask = 12
 position = Vector2(-12, 0)
 shape = SubResource("CircleShape2D_iilom")
 disabled = true
-
-[node name="Champ_de_vision" parent="." instance=ExtResource("12_cxqv7")]
-position = Vector2(-12, 0)
 
 [node name="Viseur" parent="." instance=ExtResource("13_58vb0")]
 

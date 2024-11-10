@@ -17,7 +17,6 @@ var distance_vision = 1000
 
 func _ready():
 	obturateur.occluder = OccluderPolygon2D.new()
-	var angle = deg_to_rad((180 - angle_vision) / 2)
 
 	obturateur.occluder.set_polygon([
 	Vector2(0, 10),  # Point central

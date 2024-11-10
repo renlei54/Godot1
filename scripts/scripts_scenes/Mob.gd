@@ -20,7 +20,9 @@ func _physics_process(delta):
 	# Suivi du chemin le plus court pour se rendre au joueur
 	direction = to_local(navigation_agent.get_next_path_position()).normalized()
 	if has_node("/root/Main/Joueur") and global_position.distance_to(joueur.global_position) > 100:
-		position += direction.normalized() * delta * vitesse
+		# position += direction.normalized() * delta * vitesse
+		# velocity = direction * vitesse
+		translate(direction * vitesse * delta)
 	move_and_slide()
 
 func _on_navigation_timer_timeout():

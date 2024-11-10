@@ -12,8 +12,6 @@ extends Node
 @onready var menu = $CanvasLayer/Menu
 @onready var liste_entites = []
 
-
-@onready var tilemap = $Monde1
 @onready var navigation_region = $NavigationRegion2D
 
 # Signaux
