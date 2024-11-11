@@ -13,6 +13,7 @@ var bloquage_animations = false
 var bloquage_regeneration = false
 # Statistiques du joueur
 @export var vitesse = 400
+@export var vitesse_max = 400
 @export var vie_max = 100
 @export var vie = vie_max
 @export var degats = 50
@@ -124,16 +125,12 @@ func _physics_process(delta):
 	if not bloquage_rotation and direction.length() > 0:
 		if direction.y > 0:
 			orientation = "bas"
-			attaque.rotation_degrees = 90
 		elif direction.x > 0:
 			orientation = "droite"
-			attaque.rotation_degrees = 0
 		elif direction.x < 0:
 			orientation = "gauche"
-			attaque.rotation_degrees = 180
 		elif direction.y < 0:
 			orientation = "haut"
-			attaque.rotation_degrees = -90
 	
 	# Lecture de l'animation de marche	
 	if not bloquage_animations:
@@ -163,6 +160,8 @@ func _physics_process(delta):
 			animations.play("Attaque_droite")
 		bloquage_input = true
 		bloquage_regeneration = true
+		bloquage_direction = true
+		bloquage_animations = true
 
 	# Verrouillage
 	if input_verrouillage:
@@ -293,9 +292,9 @@ func _on_animations_animation_finished(_anim_name):
 		bloquage_animations = false
 	if bloquage_regeneration:
 		bloquage_regeneration = false
-	# Fin d'animation de roulade
-	if _anim_name.begins_with("Roulade"):
-		vitesse = 400
+	# Réinitialisation de la vitesse
+	if vitesse != vitesse_max:
+		vitesse = vitesse_max
 	# Fin d'animation de potion de vie
 	if _anim_name == "Potion":
 		# Modification de la vie actuelle
@@ -322,18 +321,11 @@ func _on_timer_regenaration_timeout():
 	else:
 		regeneration_en_cours = false
 
-# En cas de détection
-func _on_detection_body_entered(body):	
-	# Si c'est avec un ennemi
-	if body.is_in_group("mob"):
-		# Prise de dégats
-		composant_degats.prise_de_degats(self, vie, body.degats)
-
 # En cas de collision avec l'arme
-func _on_attaque_body_entered(body):
-	if body.is_in_group("bloc"):
-		animations.seek(0.5, true)
-		_on_animations_animation_finished("Attaque")
+#func _on_attaque_body_entered(body):
+	#if body.is_in_group("bloc"):
+		#animations.seek(0.5, true)
+		#_on_animations_animation_finished("Attaque")
 
 # Fonction de choix de cible
 func ciblage_mob_proche():
@@ -382,3 +374,10 @@ func tri_mobs_visibles_positions():
 func _lorsque_suppression_entite(entite):
 	if entite in mobs:
 		mobs.erase(entite)
+
+# En cas de détection
+func _on_detection_area_entered(area):
+	# Si c'est avec un ennemi
+	if area.is_in_group("mob"):
+		# Prise de dégats
+		composant_degats.prise_de_degats(self, vie, area.get_parent().degats)

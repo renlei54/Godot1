@@ -4,12 +4,17 @@ extends CollisionPolygon2D
 @export var arc_radius : float = 30 # Rayon de l'arc
 @export var segments : int = 8 # Nombre de segments pour définir la courbe de l'arc
 @export var start_angle : float = -90 # Angle de départ en degrés
-
-@onready var visual_polygon = $Polygon2D # Référence au Polygon2D
+@onready var visual_polygon = $Polygone # Référence au Polygon2D
 
 func _ready():
 	update_collision_polygon()
 	visual_polygon.visible = false
+
+func _process(_delta):
+	if disabled == false:
+		visual_polygon.visible = true
+	else:
+		visual_polygon.visible = false
 
 func update_collision_polygon():
 	var points = []

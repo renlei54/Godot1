@@ -7,10 +7,13 @@ var direction
 @export var degats = 20
 @export var vie_max = 100
 @export var vitesse = 100
+@export var vitesse_max = 100
 # Noeuds
 @onready var joueur = $/root/Main/Joueur
 @onready var composant_degats = $Composant_degats
 @onready var navigation_agent = $Navigation_agent
+@onready var animations = $Animations
+@onready var attaque = $Attaque
 
 func _ready():
 	# Initialisation de la vie du mob
@@ -18,13 +21,18 @@ func _ready():
 
 func _physics_process(delta):
 	# Suivi du chemin le plus court pour se rendre au joueur
-	direction = to_local(navigation_agent.get_next_path_position()).normalized()
-	if has_node("/root/Main/Joueur") and global_position.distance_to(joueur.global_position) > 100:
-		# position += direction.normalized() * delta * vitesse
-		# velocity = direction * vitesse
-		translate(direction * vitesse * delta)
+	if has_node("/root/Main/Joueur"): # and global_position.distance_to(joueur.global_position) > 100:
+		# Si le joueur est proche
+		if global_position.distance_to(joueur.global_position) <= 20:
+			attaque.rotation = position.angle_to_point(joueur.position)
+			animations.play("Attaque")
+		else:
+			direction = to_local(navigation_agent.get_next_path_position()).normalized()
+			translate(direction * vitesse * delta)
 	move_and_slide()
+	
 
+# Définition de la cible
 func _on_navigation_timer_timeout():
 	if has_node("/root/Main/Joueur"):
 		navigation_agent.target_position = joueur.global_position
@@ -40,3 +48,10 @@ func _on_detection_area_entered(area):
 	if area.is_in_group("arme"):
 		# Prise de dégats
 		composant_degats.prise_de_degats(self, vie.value, joueur.degats)
+
+# Fonction de fin d'animation
+func _on_animations_animation_finished(anim_name):
+	# Réinitialisation de la vitesse
+	if vitesse != vitesse_max:
+		vitesse = vitesse_max
+		

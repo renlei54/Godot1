@@ -33,14 +33,12 @@ position = Vector2(500, 500)
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 position = Vector2(29, -44)
 navigation_polygon = SubResource("NavigationPolygon_sdmjq")
-use_edge_connections = false
+constrain_avoidance = true
 
-[node name="Mob" parent="." groups=["mob"] instance=ExtResource("3_nrysj")]
+[node name="Mob" parent="." instance=ExtResource("3_nrysj")]
 position = Vector2(622, 472)
 
-[node name="Mob2" parent="." groups=["mob"] instance=ExtResource("3_nrysj")]
-
-[node name="Joueur" parent="." groups=["bloc"] instance=ExtResource("6_4xv2f")]
+[node name="Joueur" parent="." instance=ExtResource("6_4xv2f")]
 
 [node name="Camera" type="Camera2D" parent="Joueur"]
 limit_left = 0

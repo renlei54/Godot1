@@ -1,13 +1,50 @@
-[gd_scene load_steps=6 format=3 uid="uid://cipuvkeqpfjpj"]
+[gd_scene load_steps=10 format=3 uid="uid://cipuvkeqpfjpj"]
 
 [ext_resource type="Script" path="res://scripts/scripts_scenes/Mob.gd" id="1_bae5k"]
 [ext_resource type="Texture2D" uid="uid://vwoltqtdfkdw" path="res://art/mob.png" id="2_65ios"]
 [ext_resource type="Script" path="res://scripts/composants/composant_degats.gd" id="3_vq65d"]
+[ext_resource type="PackedScene" uid="uid://dirw1dgpbshct" path="res://scenes/composants/collisions_demi_cercle.tscn" id="4_kwkii"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vf8li"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6kkq1"]
 radius = 11.0
+
+[sub_resource type="Animation" id="Animation_qrn5o"]
+resource_name = "Attaque"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Attaque/Demi_cercle:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_25g7g"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Attaque/Demi_cercle:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s2jsr"]
+_data = {
+"Attaque": SubResource("Animation_qrn5o"),
+"RESET": SubResource("Animation_25g7g")
+}
 
 [node name="Mob" type="CharacterBody2D"]
 collision_layer = 4
@@ -24,6 +61,7 @@ texture = ExtResource("2_65ios")
 script = ExtResource("3_vq65d")
 
 [node name="Navigation_agent" type="NavigationAgent2D" parent="."]
+path_desired_distance = 10.0
 debug_enabled = true
 
 [node name="Navigation_timer" type="Timer" parent="."]
@@ -45,6 +83,18 @@ collision_mask = 2
 [node name="Collisions_detection" type="CollisionShape2D" parent="Detection"]
 shape = SubResource("CircleShape2D_6kkq1")
 
+[node name="Attaque" type="Area2D" parent="." groups=["mob"]]
+collision_layer = 4
+
+[node name="Demi_cercle" parent="Attaque" instance=ExtResource("4_kwkii")]
+disabled = false
+
+[node name="Animations" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_s2jsr")
+}
+
 [connection signal="degats_pris" from="Composant_degats" to="." method="_on_composant_degats_degats_pris"]
 [connection signal="timeout" from="Navigation_timer" to="." method="_on_navigation_timer_timeout"]
 [connection signal="area_entered" from="Detection" to="." method="_on_detection_area_entered"]
+[connection signal="animation_finished" from="Animations" to="." method="_on_animations_animation_finished"]

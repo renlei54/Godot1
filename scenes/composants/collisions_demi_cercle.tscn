@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dirw1dgpbshct"]
+
+[ext_resource type="Script" path="res://scripts/composants/collisions_demi_cercle.gd" id="1_qkq78"]
+
+[node name="Demi_cercle" type="CollisionPolygon2D"]
+disabled = true
+script = ExtResource("1_qkq78")
+
+[node name="Polygone" type="Polygon2D" parent="."]
