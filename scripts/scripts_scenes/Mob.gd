@@ -14,10 +14,12 @@ var direction
 @onready var navigation_agent = $Navigation_agent
 @onready var animations = $Animations
 @onready var attaque = $Attaque
+@onready var collision_attaque = $Attaque/Demi_cercle
 
 func _ready():
 	# Initialisation de la vie du mob
 	vie.value = vie_max
+	collision_attaque.disabled = true
 
 func _physics_process(delta):
 	# Suivi du chemin le plus court pour se rendre au joueur

@@ -12,8 +12,9 @@ var bloquage_direction = false
 var bloquage_animations = false
 var bloquage_regeneration = false
 # Statistiques du joueur
-@export var vitesse = 400
-@export var vitesse_max = 400
+@export var acceleration = 10
+@export var vitesse = 0
+@export var vitesse_max = 200
 @export var vie_max = 100
 @export var vie = vie_max
 @export var degats = 50
@@ -135,6 +136,7 @@ func _physics_process(delta):
 	# Lecture de l'animation de marche	
 	if not bloquage_animations:
 		if direction.length() > 0:
+			acceleration_personnage()
 			if orientation == "haut":
 				animations.play("Marche_haut")
 			if orientation == "bas":
@@ -143,6 +145,8 @@ func _physics_process(delta):
 				animations.play("Marche_gauche")
 			if orientation == "droite":
 				animations.play("Marche_droite")
+		else:
+			deceleration_personnage()
 
 	# Attaque 
 	if input_attaque and endurance > 0:
@@ -381,3 +385,17 @@ func _on_detection_area_entered(area):
 	if area.is_in_group("mob"):
 		# Prise de dégats
 		composant_degats.prise_de_degats(self, vie, area.get_parent().degats)
+
+# Fonction d'accéleration
+func acceleration_personnage():
+	if vitesse < (vitesse_max - acceleration):
+		vitesse += acceleration
+	elif vitesse > (vitesse_max - acceleration) and vitesse < vitesse_max:
+		vitesse = vitesse_max
+
+# Fonction de décélération
+func deceleration_personnage():
+	if vitesse >= acceleration:
+		vitesse -= acceleration
+	elif vitesse < acceleration and vitesse > 0:
+		vitesse = 0
