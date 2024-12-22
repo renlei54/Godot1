@@ -1,7 +1,7 @@
 [gd_scene load_steps=28 format=3 uid="uid://bmb7pcg2usegk"]
 
 [ext_resource type="Script" path="res://scripts/scripts_scenes/joueur.gd" id="1_tqrhm"]
-[ext_resource type="Texture2D" uid="uid://dmn5k4ya43f3t" path="res://art/spritesheet_joueur.png" id="3_88xgf"]
+[ext_resource type="Texture2D" uid="uid://dhr0k6iu75a80" path="res://art/bonhomme.png" id="2_eiexw"]
 [ext_resource type="Script" path="res://scripts/composants/composant_degats.gd" id="3_nl4ug"]
 [ext_resource type="PackedScene" uid="uid://dirw1dgpbshct" path="res://scenes/composants/collisions_demi_cercle.tscn" id="5_2c6x5"]
 [ext_resource type="PackedScene" uid="uid://cjx7ha1sno15k" path="res://scenes/champ_de_vision.tscn" id="12_cxqv7"]
@@ -607,11 +607,11 @@ vitesse = 200
 
 [node name="Spritesheet_joueur" type="Sprite2D" parent="."]
 light_mask = 0
-position = Vector2(-10, 0)
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("3_88xgf")
+position = Vector2(-14, 7)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_eiexw")
 hframes = 5
-vframes = 12
+vframes = 13
 frame = 6
 
 [node name="Champ_de_vision" parent="." instance=ExtResource("12_cxqv7")]
